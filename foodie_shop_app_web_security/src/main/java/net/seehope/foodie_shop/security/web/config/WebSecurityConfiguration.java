@@ -7,9 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 /**
  * @Version 1.0
@@ -26,6 +31,19 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private AuthenticationSuccessHandler successHandler;
     @Autowired
     private AuthenticationFailureHandler failureHandler;
+
+    @Autowired
+    private DataSource dataSource;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    public PersistentTokenRepository persistentTokenRepository(){
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+        jdbcTokenRepository.setDataSource(dataSource);
+        return jdbcTokenRepository;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -50,6 +68,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .successHandler(successHandler)
                 // 认证失败处理器
                 .failureHandler(failureHandler)
+            .and()
+                //添加记住我功能
+                .rememberMe()
+                //保存策略 基于内存或基于数据库
+                .tokenRepository(persistentTokenRepository())
+                //用户名认证类
+                .userDetailsService(userDetailsService)
+                //设置token有效期
+                .tokenValiditySeconds(properties.getBrowser().getTokenValiditySeconds())
             .and()// 返回http security对象配置目录
                 .authorizeRequests() //以下都是对授权进行配置,记得放行！！！
                 //请求符合该规则时，放行

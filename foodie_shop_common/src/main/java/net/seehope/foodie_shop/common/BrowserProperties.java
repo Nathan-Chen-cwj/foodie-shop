@@ -17,10 +17,24 @@ public class BrowserProperties {
     private String loginProcessingUrl="/authentication/form";
 
     private String swagger = "/swagger-ui/*";
+
+    /**
+     * 认证服务状态保留七天
+     */
+    private Integer tokenValiditySeconds=60*60*7;
+
     /**
      * 默认登陆响应返回json
      */
     private LoginType loginType = LoginType.json;
+
+    public Integer getTokenValiditySeconds() {
+        return tokenValiditySeconds;
+    }
+
+    public void setTokenValiditySeconds(Integer tokenValiditySeconds) {
+        this.tokenValiditySeconds = tokenValiditySeconds;
+    }
 
     public LoginType getLoginType() {
         return loginType;
