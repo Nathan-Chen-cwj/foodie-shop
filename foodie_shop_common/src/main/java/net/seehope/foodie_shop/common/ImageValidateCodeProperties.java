@@ -24,7 +24,7 @@ public class ImageValidateCodeProperties {
     /**
      * 图片验证码长度
      */
-    private int codeLength=4;
+    private int imageValidateCodeLength=4;
     /**
      * 图片验证码有效长度
      */
@@ -33,11 +33,11 @@ public class ImageValidateCodeProperties {
     public ImageValidateCodeProperties() {
     }
 
-    public ImageValidateCodeProperties(String imageValidateCodeProcessingUrl, int width, int height, int codeLength, int effectiveIn) {
+    public ImageValidateCodeProperties(String imageValidateCodeProcessingUrl, int width, int height, int imageValidateCodeLength, int effectiveIn) {
         this.imageValidateCodeProcessingUrl = imageValidateCodeProcessingUrl;
         this.width = width;
         this.height = height;
-        this.codeLength = codeLength;
+        this.imageValidateCodeLength = imageValidateCodeLength;
         this.effectiveIn = effectiveIn;
     }
 
@@ -65,12 +65,12 @@ public class ImageValidateCodeProperties {
         this.height = height;
     }
 
-    public int getCodeLength() {
-        return codeLength;
+    public int getImageValidateCodeLength() {
+        return imageValidateCodeLength;
     }
 
-    public void setCodeLength(int codeLength) {
-        this.codeLength = codeLength;
+    public void setImageValidateCodeLength(int imageValidateCodeLength) {
+        this.imageValidateCodeLength = imageValidateCodeLength;
     }
 
     public int getEffectiveIn() {

@@ -18,6 +18,11 @@
       "sourceType": "net.seehope.foodie_shop.common.ProjectProperties"
     },
     {
+      "name": "net.seehope.email-validate-code-properties",
+      "type": "net.seehope.foodie_shop.common.EmailValidateCodeProperties",
+      "sourceType": "net.seehope.foodie_shop.common.ProjectProperties"
+    },
+    {
       "name": "net.seehope.image-validate-code",
       "type": "net.seehope.foodie_shop.common.ImageValidateCodeProperties",
       "description": "使用条件装配来实现验证码的生产",
@@ -26,6 +31,11 @@
     {
       "name": "net.seehope.qq",
       "type": "net.seehope.foodie_shop.common.QQProperties",
+      "sourceType": "net.seehope.foodie_shop.common.ProjectProperties"
+    },
+    {
+      "name": "net.seehope.sms-validate-code-properties",
+      "type": "net.seehope.foodie_shop.common.SmsValidateCodeProperties",
       "sourceType": "net.seehope.foodie_shop.common.ProjectProperties"
     }
   ],

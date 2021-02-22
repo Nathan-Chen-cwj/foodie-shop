@@ -88,8 +88,8 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
     }
 
     public void doValidate(ServletWebRequest request) throws ServletRequestBindingException{
-        ValidateCode codeInSession = (ValidateCode) sessionStrategy.getAttribute(request, ValidateCodeController.IMAGE_VALIDATE_CODE_IN_SESSION);
-        String codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), "validateCode");
+        ValidateCode codeInSession = (ValidateCode) sessionStrategy.getAttribute(request, "IMAGE_VALIDATE_CODE_IN_SESSION");
+        String codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), "imageValidateCode");
         if(StringUtils.isBlank(codeInSession.getCode())|| codeInSession.getCode()==null){
             throw new DoValidateException("系统无验证码，请访问登陆页面");
         }
@@ -102,7 +102,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
         if (!StringUtils.equalsAnyIgnoreCase(codeInRequest,codeInSession.getCode())){
             throw new DoValidateException("验证码不匹配，请重新输入");
         }
-        sessionStrategy.removeAttribute(request, ValidateCodeController.IMAGE_VALIDATE_CODE_IN_SESSION);
+        sessionStrategy.removeAttribute(request, "IMAGE_VALIDATE_CODE_IN_SESSION");
     }
 
     public ProjectProperties getProperties() {

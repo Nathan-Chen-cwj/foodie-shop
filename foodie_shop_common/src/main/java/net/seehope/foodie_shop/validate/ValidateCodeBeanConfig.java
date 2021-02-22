@@ -19,7 +19,6 @@ public class ValidateCodeBeanConfig {
     @Autowired
     private ProjectProperties properties;
 
-    private static final Logger logger = LoggerFactory.getLogger(ValidateCodeBeanConfig.class);
     /**
      * 只有当容器中缺少ImageValidateCodeGenerator 或者缺少其实现 bean才注册
      * 相当于
@@ -28,9 +27,24 @@ public class ValidateCodeBeanConfig {
     @Bean
     @ConditionalOnMissingBean(value = ImageValidateCodeGenerator.class)
     public ImageValidateCodeGenerator imageValidateCodeGenerator(){
-        System.out.println("imageValidateCodeGenerator+++properties+"+properties);
         DefaultImageValidateCodeGenerator defaultImageValidateCodeGenerator = new DefaultImageValidateCodeGenerator();
         defaultImageValidateCodeGenerator.setProperties(properties);
         return defaultImageValidateCodeGenerator;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(value = SmsValidateCodeGenerator.class)
+    public SmsValidateCodeGenerator smsValidateCodeGenerator(){
+        DefaultSmsValidateCodeGenerator defaultSmsValidateCodeGenerator = new DefaultSmsValidateCodeGenerator();
+        defaultSmsValidateCodeGenerator.setProperties(properties);
+        return defaultSmsValidateCodeGenerator;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(value = EmailValidateCodeGenerator.class)
+    public EmailValidateCodeGenerator emailValidateCodeGenerator(){
+        DefaultEmailValidateCodeGenerator defaultEmailValidateCodeGenerator = new DefaultEmailValidateCodeGenerator();
+        defaultEmailValidateCodeGenerator.setProperties(properties);
+        return defaultEmailValidateCodeGenerator;
     }
 }

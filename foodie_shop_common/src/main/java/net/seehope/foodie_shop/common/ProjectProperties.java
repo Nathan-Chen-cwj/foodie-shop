@@ -28,6 +28,26 @@ public class ProjectProperties {
 	 */
 	private ImageValidateCodeProperties imageValidateCode = new ImageValidateCodeProperties();
 
+	private SmsValidateCodeProperties smsValidateCodeProperties = new SmsValidateCodeProperties();
+
+	private EmailValidateCodeProperties emailValidateCodeProperties = new EmailValidateCodeProperties();
+
+	public EmailValidateCodeProperties getEmailValidateCodeProperties() {
+		return emailValidateCodeProperties;
+	}
+
+	public void setEmailValidateCodeProperties(EmailValidateCodeProperties emailValidateCodeProperties) {
+		this.emailValidateCodeProperties = emailValidateCodeProperties;
+	}
+
+	public SmsValidateCodeProperties getSmsValidateCodeProperties() {
+		return smsValidateCodeProperties;
+	}
+
+	public void setSmsValidateCodeProperties(SmsValidateCodeProperties smsValidateCodeProperties) {
+		this.smsValidateCodeProperties = smsValidateCodeProperties;
+	}
+
 	public String getBaseStaticServerUrl() {
 		return baseStaticServerUrl;
 	}

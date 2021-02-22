@@ -97,7 +97,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/css/bootstrap.min.css",
                         "/css/style.css",
                         "css/unicons.css",
-                        properties.getBrowser().getSwagger())
+                        properties.getBrowser().getSwagger(),
+                        ProjectConstant.VALIDATE_CODE_URL_PREFIX+"*")
                 .permitAll()//放行
                 .anyRequest()//除上述请求外所有请求
                 .authenticated()//都需要进行认证，不在乎认证形式，只要认证即可

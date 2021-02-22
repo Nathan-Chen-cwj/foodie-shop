@@ -62,7 +62,7 @@ public class DefaultImageValidateCodeGenerator implements ImageValidateCodeGener
         }
 
         StringBuilder sRand = new StringBuilder();
-        for (int i = 0; i < properties.getImageValidateCode().getCodeLength(); i++) {
+        for (int i = 0; i < properties.getImageValidateCode().getImageValidateCodeLength(); i++) {
             String rand = String.valueOf(random.nextInt(10));
             sRand.append(rand);
             g.setColor(new Color(20 + random.nextInt(110), 20 + random.nextInt(110), 20 + random.nextInt(110)));

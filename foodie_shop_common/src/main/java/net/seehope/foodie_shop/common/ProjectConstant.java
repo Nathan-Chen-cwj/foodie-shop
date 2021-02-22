@@ -15,4 +15,15 @@ public class ProjectConstant {
      * 如果访问动态资源，那么返回json
      */
     public final static String LOGIN_PATH="/authentication/require";
+
+    /**
+     * 验证码生成方法共有前缀
+     */
+    public final static String VALIDATE_CODE_URL_PREFIX="/code/";
+
+    /**
+     *
+     */
+    public static String VALIDATE_CODE_IN_SESSION_SUFFIX = "_VALIDATE_CODE_IN_SESSION";
+
 }

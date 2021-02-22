@@ -33,9 +33,13 @@
 														<i class="input-icon uil uil-lock-alt"></i>
 													</div>
 													<div class="form-group">
-														<input type="text" name="validateCode" class="form-style" placeholder="请输入验证码" id="validateCode" autocomplete="off">
+														<input type="text" name="imageValidateCode" class="form-style" placeholder="请输入图片验证码" id="imageValidateCode" autocomplete="off">
 														<i class="input-icon uil uil-at"></i>
-														<img src="/validate/image">
+														<img src="/code/image">
+													</div>
+													<div class="form-group mt-2">
+														<input type="text" name="mobile" class="form-style" placeholder="请输入手机号码" id="mobile" autocomplete="off">
+														<button type="button" id="sendSmsCode" class="btn mt-4">发送验证码</button>
 													</div>
 													<div class="form-group" style="display: none">
 														<!--		spring security remember 功能固定写法		-->
@@ -84,4 +88,29 @@
 			</div>
 		</div>
 	</body>
+	<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript" >
+		$(function (){
+			var repMoblie = /^1[3456789]d{9}$/;
+			
+			$("#sendSmsCode").click(function (){
+				 var mobile = $('#mobile').val();
+				 if(mobile == null || mobile==""){
+					 alert("请输入手机号码!")
+				 }else{
+					 
+					 if(repMoblie.test(mobile)){
+						 $.ajax({
+							 type:"get",
+							 url:"/code/sms?mobile="+mobile,
+							 success:function(data){
+								 console.log(data);
+							 }
+						 })
+					 }
+					 alert("手机号码输入有误!");
+				 }
+			});
+		})
+	</script>
 </html>
