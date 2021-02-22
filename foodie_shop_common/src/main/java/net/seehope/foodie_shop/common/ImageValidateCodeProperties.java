@@ -7,7 +7,10 @@ package net.seehope.foodie_shop.common;
  */
 public class ImageValidateCodeProperties {
     /**
-     * 图片验证码验证处理地址
+     * 图片验证码验证时需要验证的路径，
+     * 如果有多个路径，以逗号隔开
+     * （因为不光登陆可以采用图片验证码这种验证方式、注册、支付等也可能需要
+     * 所以验证过滤器尽量要做到可重用，所以把需要验证的路径做成一个集合）
      */
     private String imageValidateCodeProcessingUrl="/authentication/form";
     /**

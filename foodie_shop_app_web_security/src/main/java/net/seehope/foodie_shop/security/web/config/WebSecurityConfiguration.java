@@ -37,6 +37,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
         validateCodeFilter.setProperties(properties);
         validateCodeFilter.setFailureHandler(failureHandler);
+        validateCodeFilter.afterPropertiesSet();
+
         //设置当前应用使用表单登录方式
         http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
@@ -57,7 +59,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/validate/image",
                         "/css/bootstrap.min.css",
                         "/css/style.css",
-                        "css/unicons.css")
+                        "css/unicons.css",
+                        properties.getBrowser().getSwagger())
                 .permitAll()//放行
                 .anyRequest()//除上述请求外所有请求
                 .authenticated()//都需要进行认证，不在乎认证形式，只要认证即可
