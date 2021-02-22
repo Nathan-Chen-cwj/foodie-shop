@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.seehope.foodie_shop.mapper.ItemsParamMapper">
+
+    <resultMap id="queryItemParamsVoData" type="net.seehope.foodie_shop.vo.ItemParamsVo">
+        <result property="brand" column="brand"/>
+        <result property="eatMethod" column="eat_method"/>
+        <result property="factoryAddress" column="factory_address"/>
+        <result property="factoryName" column="factory_name"/>
+        <result property="footPeriod" column="foot_period"/>
+        <result property="producPlace" column="produc_place"/>
+        <result property="storageMethod" column="storage_method"/>
+        <result property="weight" column="weight"/>
+        <result property="packingMethod" column="packaging_method"/>
+    </resultMap>
+
+    <select id="queryItemParamsVo" resultMap="queryItemParamsVoData">
+        select
+            ip.produc_place,ip.brand,ip.factory_name,
+            ip.factory_address,ip.foot_period,ip.weight,
+            ip.storage_method,ip.eat_method,ip.packaging_method
+        from
+            items_param ip
+        where
+           ip.item_id = #{itemId}
+    </select>
+</mapper>

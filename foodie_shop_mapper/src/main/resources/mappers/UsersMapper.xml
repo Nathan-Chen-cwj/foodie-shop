@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.seehope.foodie_shop.mapper.UsersMapper">
+    <!--  指定了对象就不用使用对象 . 属性名 的取值方式，直接用字段名取值就行  -->
+    <insert id="insertUser" parameterType="net.seehope.foodie_shop.bo.UserBo">
+        insert into
+	        users (id,username,password,face,created_time,updated_time)
+        values
+            (#{id},#{username},
+            #{password},#{face},
+            #{createTime},#{updateTime})
+    </insert>
+
+    <select id="queryUserNameIsExist" resultType="net.seehope.foodie_shop.pojo.Users">
+        select username from users where username = #{username}
+    </select>
+
+    <select id="queryUserByUsernameAndPassword" resultType="net.seehope.foodie_shop.vo.UserVo">
+        select id,username,password,face from users where username= #{param1} and password = #{param2}
+    </select>
+    <select id="queryUserPassword" resultType="net.seehope.foodie_shop.vo.UserVo">
+        select id,username,password,face from users where username= #{username}
+    </select>
+</mapper>

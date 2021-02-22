@@ -1,0 +1,33 @@
+{
+  "groups": [
+    {
+      "name": "net.seehope",
+      "type": "net.seehope.foodie_shop.common.ProjectProperties",
+      "sourceType": "net.seehope.foodie_shop.common.ProjectProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "net.seehope.base-static-server-url",
+      "type": "java.lang.String",
+      "sourceType": "net.seehope.foodie_shop.common.ProjectProperties"
+    },
+    {
+      "name": "net.seehope.browser",
+      "type": "net.seehope.foodie_shop.common.BrowserProperties",
+      "sourceType": "net.seehope.foodie_shop.common.ProjectProperties"
+    },
+    {
+      "name": "net.seehope.image-validate-code",
+      "type": "net.seehope.foodie_shop.common.ImageValidateCodeProperties",
+      "description": "使用条件装配来实现验证码的生产",
+      "sourceType": "net.seehope.foodie_shop.common.ProjectProperties"
+    },
+    {
+      "name": "net.seehope.qq",
+      "type": "net.seehope.foodie_shop.common.QQProperties",
+      "sourceType": "net.seehope.foodie_shop.common.ProjectProperties"
+    }
+  ],
+  "hints": []
+}

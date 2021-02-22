@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.seehope.foodie_shop.mapper.ItemsCommentsMapper">
+
+    <resultMap id="showCommentsVo" type="net.seehope.foodie_shop.vo.ShowCommentsVo">
+        <result property="goodCounts" column="good_comment" />
+        <result property="normalCounts" column="normal_comment"/>
+        <result property="badCounts" column="bad_comment"/>
+        <result property="totalCounts" column="total_comment"/>
+    </resultMap>
+
+    <select id="queryGoodComments" resultMap="showCommentsVo">
+        select count(id) good_comment from items_comments where item_id = #{itemId} and comment_level = 1;
+    </select>
+
+    <select id="queryNormalComments" resultMap="showCommentsVo">
+        select count(id) normal_comment from items_comments where item_id = #{itemId} and comment_level = 2;
+    </select>
+
+    <select id="queryBadComments" resultMap="showCommentsVo">
+        select count(id) bad_comment from items_comments where item_id = #{itemId} and comment_level = 3;
+    </select>
+    <select id="queryCountComments" resultMap="showCommentsVo">
+        select count(id) total_comment from items_comments where item_id = #{itemId};
+    </select>
+
+    <resultMap id="queryCommentLevelDto" type="net.seehope.foodie_shop.vo.CommentLevelDto">
+        <result property="countsNum" column="count_num"/>
+        <result property="commentLevel" column="comment_level"/>
+    </resultMap>
+    <select id="queryCommentLevelCounts" parameterType="string" resultMap="queryCommentLevelDto">
+        SELECT
+            COUNT(*) count_num,comment_level
+        FROM
+            items_comments
+        WHERE
+            item_id = #{itemId}
+        GROUP BY comment_level;
+    </select>
+
+    <resultMap id="queryCommentListVoData" type="net.seehope.foodie_shop.vo.CommentListVo">
+        <result property="content" column="content"/>
+        <result property="createdTime" column="create_time"/>
+        <result property="nickname" column="nickname"/>
+        <result property="specName" column="spec_name"/>
+        <result property="userFace" column="face"/>
+    </resultMap>
+    <select id="queryComments" parameterType="string" resultMap="queryCommentListVoData">
+        SELECT
+	        nickname,ic.created_time,ic.sepc_name,content,face
+        FROM
+        items_comments ic
+        LEFT JOIN users ON ic.user_id = users.id
+        WHERE
+        item_id = #{itemId}
+        <if test="level!=null and level!=''">
+            and comment_level = #{level}
+        </if>
+    </select>
+
+</mapper>

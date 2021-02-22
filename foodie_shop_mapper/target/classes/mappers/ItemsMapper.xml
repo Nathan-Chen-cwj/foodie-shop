@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.seehope.foodie_shop.mapper.ItemsMapper">
+
+    <resultMap id="simpleItemVoResultMap" type="net.seehope.foodie_shop.vo.SimpleItemVo">
+        <result property="itemName" column="item_name"/>
+        <result property="itemId" column="id"/>
+        <result property="itemUrl" column="url"/>
+    </resultMap>
+
+    <select id="querySimpleItemVo" resultMap="simpleItemVoResultMap" parameterType="int">
+        select * from items i
+        left join items_img ii on  i.id = ii.item_id
+        where root_cat_id = #{rootCatId}
+        and ii.is_main = 1
+        limit 6
+    </select>
+
+<!--    <resultMap id="queryItemDetailsData" type="net.seehope.foodie_shop.vo.ItemInfoVo">-->
+<!--        <association property="item" resultMap="queryItemVoData"></association>-->
+<!--        <association property="itemParams" resultMap="net.seehope.foodie_shop.mapper.ItemsParamMapper.queryItemParamsVoData"></association>-->
+<!--        <collection property="itemImgList" resultMap="net.seehope.foodie_shop.mapper.ItemsImgMapper.queryItemImgListVoData"></collection>-->
+<!--        <collection property="itemSpecList" resultMap="net.seehope.foodie_shop.mapper.ItemsSpecMapper.queryItemSpecListVoData"></collection>-->
+<!--    </resultMap>-->
+
+    <resultMap id="queryItemVoData" type="net.seehope.foodie_shop.vo.ItemVo">
+        <result property="id" column="id"/>
+        <result property="context" column="context"/>
+        <result property="sellCounts" column="sell_counts"/>
+        <result property="itemName" column="item_name"/>
+    </resultMap>
+
+    <select id="queryItemVo" resultMap="queryItemVoData">
+        select i.id,i.item_name,i.sell_counts from items i  where i.id = #{itemId}
+    </select>
+
+    <resultMap id="rowsVoData" type="net.seehope.foodie_shop.vo.RowsVo">
+        <result property="itemName" column="item_name"/>
+        <result property="sellCounts" column="sell_counts"/>
+        <result property="price" column="price_normal"/>
+        <result property="imgUrl" column="url"/>
+        <result property="itemId" column="item_id"/>
+    </resultMap>
+<!--    <if test='academy != "管理" and academy != "校"'>-->
+    <select id="searchRowsVo" resultMap="rowsVoData" parameterType="string">
+        select
+            i.item_name,i.sell_counts,isp.price_normal,ii.url,ii.item_id
+        from
+            items i left join items_spec isp on i.id = isp.item_id
+            left join items_img ii on isp.item_id = ii.item_id
+        where item_name like #{param1} and ii.is_main = 1
+        GROUP BY i.item_name
+        <if test='param2=="k"'>
+            ORDER BY i.item_name
+        </if>
+        <if test='param2=="c"' >
+            ORDER BY sell_counts
+        </if>
+        <if test='param2=="p"' >
+            ORDER BY isp.price_normal
+        </if>
+    </select>
+
+
+    <!--column不做限制，可以为任意表的字段，而property须为type 定义的pojo属性-->
+<!--    <resultMap id="唯一的标识" type="映射的pojo对象">-->
+<!--        <id column="表的主键字段，或者可以为查询语句中的别名字段" jdbcType="字段类型" property="映射pojo对象的主键属性" />-->
+<!--        <result column="表的一个字段（可以为任意表的一个字段）" jdbcType="字段类型" property="映射到pojo对象的一个属性（须为type定义的pojo对象中的一个属性）"/>-->
+<!--        <association property="pojo的一个对象属性" javaType="pojo关联的pojo对象">-->
+<!--            <id column="关联pojo对象对应表的主键字段" jdbcType="字段类型" property="关联pojo对象的主席属性"/>-->
+<!--            <result  column="任意表的字段" jdbcType="字段类型" property="关联pojo对象的属性"/>-->
+<!--        </association>-->
+<!--        &lt;!&ndash; 集合中的property须为oftype定义的pojo对象的属性&ndash;&gt;-->
+<!--        <collection property="pojo的集合属性" ofType="集合中的pojo对象">-->
+<!--            <id column="集合中pojo对象对应的表的主键字段" jdbcType="字段类型" property="集合中pojo对象的主键属性" />-->
+<!--            <result column="可以为任意表的字段" jdbcType="字段类型" property="集合中的pojo对象的属性" />-->
+<!--        </collection>-->
+<!--    </resultMap>-->
+
+<!-- <result property="itemInfoId" column="i_id" /> 这句话在至关重要！！！ -->
+    <resultMap type="net.seehope.foodie_shop.vo.ItemInfoVo"
+               id="itemsInfoVoResultMap">
+        <result property="itemInfoId" column="i_id" />
+        <association property="itemParams"
+                     javaType="net.seehope.foodie_shop.vo.ItemParamsVo">
+            <result property="eatMethod" column="eat_method" />
+            <result property="storageMethod" column="storage_method" />
+            <result property="weight" column="weight" />
+            <result property="footPeriod" column="foot_period" />
+            <result property="packagingMethod" column="packaging_method" />
+            <result property="factoryAddress" column="factory_address" />
+            <result property="producPlace" column="produc_place" />
+            <result property="brand" column="brand" />
+            <result property="factoryName" column="factory_name" />
+        </association>
+        <association property="item"
+                     javaType="net.seehope.foodie_shop.vo.ItemVo">
+            <result property="itemName" column="item_name" />
+            <result property="sellCounts" column="sell_counts" />
+            <result property="content" column="content" />
+        </association>
+        <collection property="itemImgList"
+                    ofType="net.seehope.foodie_shop.vo.ItemImgListVo">
+            <result property="isMain" column="is_main" />
+            <result property="url" column="url" />
+        </collection>
+        <collection property="itemSpecList"
+                    ofType="net.seehope.foodie_shop.vo.ItemSpecListVo">
+            <result property="id" column="id" />
+            <result property="name" column="name" />
+            <result property="priceDiscount" column="price_discount" />
+            <result property="priceNormal" column="price_normal" />
+            <result property="stock" column="stock" />
+            <result property="discounts" column="discounts" />
+        </collection>
+    </resultMap>
+    <select id="queryItemInfoVoByItemsId" parameterType="String"
+            resultMap="itemsInfoVoResultMap">
+
+		SELECT
+		i.id as i_id,
+		i.item_name,
+		i.sell_counts,
+		i.content,
+		ip.eat_method,
+		ip.storage_method,
+		ip.weight,
+		ip.foot_period,
+		ip.packaging_method,
+		ip.factory_address,
+		ip.produc_place,
+		ip.brand,
+		ip.factory_name,
+		ii.url,
+		ii.is_main,
+		ic.id,
+		ic.name,
+		ic.price_discount,
+		ic.price_normal,
+		ic.stock,
+		ic.discounts
+		FROM
+		items i
+		LEFT JOIN items_param
+		ip ON i.id = ip.item_id
+		LEFT JOIN items_img ii on ii.item_id =i.id
+		LEFT
+		JOIN items_spec ic on ic.item_id=i.id
+		WHERE
+		i.id =#{itemsId}
+	</select>
+
+    <resultMap id="shopCarItemVoData" type="net.seehope.foodie_shop.vo.ShopCarItemVo">
+        <result property="itemId" column="item_id"/>
+        <result property="itemName" column="item_name"/>
+        <result property="specId" column="id"/>
+        <result property="specName" column="name"/>
+        <result property="priceNormal" column="price_normal"/>
+        <result property="priceDiscount" column="price_discount"/>
+        <result property="itemImgUrl" column="url"/>
+    </resultMap>
+<!-- parameterType="list" 多个不同类型的参数时，该配置可不写   -->
+    <select id="queryShopCarOperation" resultMap="shopCarItemVoData" parameterType="list">
+        SELECT
+            i.item_name,i.id item_id,
+            isp.id id,isp.`name`,isp.price_normal,isp.price_discount,
+            ii.url
+        FROM
+	        items_spec isp
+        LEFT JOIN  items i ON i.id = isp.item_id
+        LEFT JOIN items_img ii ON ii.item_id = i.id
+        WHERE 	isp.id in
+        <foreach collection="specIds" open="(" close=")" item="specId" separator=",">
+            #{specId}
+        </foreach>
+        AND ii.is_main = 1;
+    </select>
+
+</mapper>

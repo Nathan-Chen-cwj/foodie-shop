@@ -1,0 +1,42 @@
+#server:
+#  port: 8085
+#  servlet:
+#    context-path: /springboot
+beetl:
+  enabled: false
+spring:
+  thymeleaf:
+    cache: false
+  datasource:
+    druid:
+      #110.43.50.227
+      url: jdbc:mysql://localhost:3306/foodie-shop?characterEncoding=utf8
+      driver-class-name: com.mysql.jdbc.Driver
+      #foodie
+      username: root
+      #epGBz8ZdanekAnfh
+      password: 1234
+  redis:
+    host: 110.43.50.227
+    port: 6379
+    password: f68d555d3075753e
+    database: 2
+mybatis:
+  mapper-locations:
+  - classpath*:mappers/**/*.xml
+  configuration:
+    lazy-loading-enabled: true
+    aggressive-lazy-loading: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    cache-enabled: true
+logging:
+  level:
+    org.springframework: info
+    net.seehope: debug
+net:
+  seehope:
+    qq:
+      appid: seehope
+      appsecret: seehopesecret
+    browser:
+      swagger: /swagger-ui/*

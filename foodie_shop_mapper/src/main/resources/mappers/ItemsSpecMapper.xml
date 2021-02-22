@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.seehope.foodie_shop.mapper.ItemsSpecMapper">
+
+    <resultMap id="queryItemSpecListVoData" type="net.seehope.foodie_shop.vo.ItemSpecListVo">
+        <result property="stock" column="stock"/>
+        <result property="discounts" column="discounts"/>
+        <result property="name" column="name"/>
+        <result property="priceDiscount" column="price_discount"/>
+        <result property="priceNormal" column="price_normal"/>
+    </resultMap>
+
+    <select id="queryItemSpecListVo" resultMap="queryItemSpecListVoData">
+        select isp.`name`,isp.price_discount,isp.price_normal,isp.discounts,isp.stock from  items_spec isp where isp.item_id = #{itemId}
+    </select>
+
+    <resultMap id="queryOrderDataResultMap" type="net.seehope.foodie_shop.dto.OrderDataDto">
+        <result property="itemId" column="item_id"/>
+        <result property="itemSpecId" column="id"/>
+        <result property="itemSpecName" column="name"/>
+        <result property="priceDiscount" column="price_discount"/>
+        <result property="priceNormal" column="price_normal"/>
+        <result property="itemImg" column="url"/>
+        <result property="itemName" column="item_name"/>
+    </resultMap>
+    <select id="queryOrderData" resultMap="queryOrderDataResultMap" parameterType="list">
+        SELECT
+            isp.item_id,
+            isp.id,
+            isp.`name`,
+            isp.price_discount,
+            isp.price_normal,
+            ii.url,
+            i.item_name
+        FROM
+	        items_spec isp
+            LEFT JOIN items i ON isp.item_id = i.id
+            LEFT JOIN items_img ii ON i.id = ii.item_id
+        WHERE
+	        isp.id IN
+	        <foreach collection="list" item="id" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+	        AND ii.is_main = 1;
+    </select>
+
+</mapper>

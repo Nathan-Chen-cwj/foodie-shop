@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.seehope.foodie_shop.mapper.ItemsImgMapper">
+<!--    ii.url,ii.sort,ii.is_main-->
+    <resultMap id="queryItemImgListVoData" type="net.seehope.foodie_shop.vo.ItemImgListVo">
+        <result property="isMain" column="is_main"/>
+        <result property="sort" column="sort"/>
+        <result property="url" column="url"/>
+    </resultMap>
+
+    <select id="queryItemImgListVo" resultMap="queryItemImgListVoData">
+        select ii.sort,ii.is_main,ii.url from  items_img ii where ii.item_id = #{itemId}
+    </select>
+</mapper>
