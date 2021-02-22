@@ -69,7 +69,17 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // 认证失败处理器
                 .failureHandler(failureHandler)
             .and()
-                //添加记住我功能
+                /*
+                    添加记住我功能 本质上是个过滤器
+                    实现过程解析：
+                        浏览器发送登陆请求，成功后AbstractAuthentication
+                        调用rememberMeService.loginSuccess服务保存登陆成功凭证,默认存储在session,
+                        正是因为这样我们能正常处理后续的请求
+                        而后,我们在这里改变了这个凭证的存储时间和位置使用了session+数据库保持登陆成功依据
+                        首次请求：AbstractAuthentication->UPA F->rememberService->jdbcTokenRepository->将token存储到数据库
+                        有效期内的请求：
+                        RememberMeAuthenticationFilter->jdbcTokenRepository->查找token->取出username->调用userDetailsService进行验证
+                 */
                 .rememberMe()
                 //保存策略 基于内存或基于数据库
                 .tokenRepository(persistentTokenRepository())
