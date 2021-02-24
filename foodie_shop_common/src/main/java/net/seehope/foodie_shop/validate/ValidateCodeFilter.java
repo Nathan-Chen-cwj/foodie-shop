@@ -52,9 +52,9 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
                 try {
                     validateCodeProcessor.doValidate(servletWebRequest);
                     filterChain.doFilter(request,response);
+                    return;
                 }catch (DoValidateException e){
                     failureHandler.onAuthenticationFailure(request,response,e);
-                    return;
                 }
             }
         }

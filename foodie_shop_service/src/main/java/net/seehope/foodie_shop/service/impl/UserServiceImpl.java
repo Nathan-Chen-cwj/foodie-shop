@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.seehope.foodie_shop.bo.UserBo;
 import net.seehope.foodie_shop.common.JsonResult;
 import net.seehope.foodie_shop.common.ProjectProperties;
+import net.seehope.foodie_shop.exception.GetUserException;
 import net.seehope.foodie_shop.exception.LoginException;
 import net.seehope.foodie_shop.mapper.UsersMapper;
 
@@ -100,13 +101,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         //进行登陆路径分拣，来调用具体的登陆验证逻辑
-//        if(StringUtils.equals(properties.getBrowser().getLoginProcessingUrl(),request.getRequestURI())){
-//            log.debug("security登陆表单中的用户名{}",username);
-//            Users users = new Users();
-//            users.setUsername(username);
-//            return getUser(users);
-//
-//        }else
         if(StringUtils.equals(properties.getSmsValidateCodeProperties().getSmsValidateCodeProcessingUrl(),request.getRequestURI())){
             log.debug("security登陆表单中的用户手机号码{}",username);
             Users users = new Users();
@@ -124,10 +118,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         List<Users> usersList = usersMapper.select(users);
         if (usersList.size()!=1){
             log.error("登陆异常，一共查询了{}条数据,与预期不同",usersList.size());
-            throw new LoginException("登陆异常");
+            throw new RuntimeException("该用户尚未注册!请注册后登陆!");
+        }else {
+            Users loginUser = usersList.get(0);
+            return new User(loginUser.getUsername(), loginUser.getPassword(), true, true, true, true,
+                    AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER,ROLE_ADMIN"));
         }
-        Users loginUser = usersList.get(0);
-        return new User(loginUser.getUsername(),loginUser.getPassword(),true,true,true,true,
-                AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER,ROLE_ADMIN"));
     }
 }
