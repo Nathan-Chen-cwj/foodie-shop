@@ -3,6 +3,7 @@ package net.seehope.foodie_shop.security.web.config;
 import net.seehope.foodie_shop.common.ProjectConstant;
 import net.seehope.foodie_shop.common.ProjectProperties;
 import net.seehope.foodie_shop.validate.ValidateCodeFilter;
+import net.seehope.foodie_shop.validate.ValidateCodeProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +16,8 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.sql.DataSource;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Version 1.0
@@ -39,6 +42,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Autowired
+    private List< ValidateCodeProcessor> validateCodeProcessors;
+
+    @Autowired
     public PersistentTokenRepository persistentTokenRepository(){
         JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
         jdbcTokenRepository.setDataSource(dataSource);
@@ -53,9 +59,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
          */
         //添加过滤器
         ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
-        validateCodeFilter.setProperties(properties);
         validateCodeFilter.setFailureHandler(failureHandler);
         validateCodeFilter.afterPropertiesSet();
+        validateCodeFilter.setValidateCodeProcessors(validateCodeProcessors);
 
         //设置当前应用使用表单登录方式
         http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
@@ -93,11 +99,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(properties.getBrowser().getLoginPage(),
                         properties.getBrowser().getLoginProcessingUrl(),
                         ProjectConstant.LOGIN_PATH,
-                        "/validate/image",
                         "/css/bootstrap.min.css",
                         "/css/style.css",
                         "css/unicons.css",
-                        properties.getBrowser().getSwagger(),
+                        properties.getBrowser().getSwaggerUrl(),
                         ProjectConstant.VALIDATE_CODE_URL_PREFIX+"*")
                 .permitAll()//放行
                 .anyRequest()//除上述请求外所有请求

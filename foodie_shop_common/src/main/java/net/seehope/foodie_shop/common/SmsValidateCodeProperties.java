@@ -7,6 +7,11 @@ package net.seehope.foodie_shop.common;
  */
 public class SmsValidateCodeProperties {
     /**
+     * 短信验证校验地址
+     */
+    private String smsValidateCodeProcessingUrl = "/authentication/mobile";
+
+    /**
      * 默认有效输入时间
      */
     private Integer effectiveIn = 60*10;
@@ -18,9 +23,12 @@ public class SmsValidateCodeProperties {
     public SmsValidateCodeProperties() {
     }
 
-    public SmsValidateCodeProperties(Integer effectiveIn, Integer smsValidateCodeLength) {
-        this.effectiveIn = effectiveIn;
-        this.smsValidateCodeLength = smsValidateCodeLength;
+    public String getSmsValidateCodeProcessingUrl() {
+        return smsValidateCodeProcessingUrl;
+    }
+
+    public void setSmsValidateCodeProcessingUrl(String smsValidateCodeProcessingUrl) {
+        this.smsValidateCodeProcessingUrl = smsValidateCodeProcessingUrl;
     }
 
     public Integer getEffectiveIn() {

@@ -47,4 +47,11 @@ public class ValidateCodeBeanConfig {
         defaultEmailValidateCodeGenerator.setProperties(properties);
         return defaultEmailValidateCodeGenerator;
     }
+
+    @Bean
+    @ConditionalOnMissingBean(value = SmsValidateCodeSender.class)
+    public SmsValidateCodeSender defaultSmsValidateCodeSender(){
+        DefaultSmsValidateCodeSender defaultSmsValidateCodeSender = new DefaultSmsValidateCodeSender();
+        return defaultSmsValidateCodeSender;
+    }
 }

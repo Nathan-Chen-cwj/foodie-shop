@@ -16,7 +16,7 @@ public class BrowserProperties {
     private String loginPage="/demo-login.html";
     private String loginProcessingUrl="/authentication/form";
 
-    private String swagger = "/swagger-ui/*";
+    private String swaggerUrl = "/swagger-ui.html/*";
 
     /**
      * 认证服务状态保留七天
@@ -60,11 +60,11 @@ public class BrowserProperties {
         this.loginProcessingUrl = loginProcessingUrl;
     }
 
-    public String getSwagger() {
-        return swagger;
+    public String getSwaggerUrl() {
+        return swaggerUrl;
     }
 
-    public void setSwagger(String swagger) {
-        this.swagger = swagger;
+    public void setSwaggerUrl(String swaggerUrl) {
+        this.swaggerUrl = swaggerUrl;
     }
 }

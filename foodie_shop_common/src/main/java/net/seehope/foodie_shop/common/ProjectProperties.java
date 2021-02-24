@@ -26,7 +26,7 @@ public class ProjectProperties {
 	/**
 	 * 使用条件装配来实现验证码的生产
 	 */
-	private ImageValidateCodeProperties imageValidateCode = new ImageValidateCodeProperties();
+	private ImageValidateCodeProperties imageValidateCodeProperties = new ImageValidateCodeProperties();
 
 	private SmsValidateCodeProperties smsValidateCodeProperties = new SmsValidateCodeProperties();
 
@@ -72,11 +72,11 @@ public class ProjectProperties {
 		this.browser = browser;
 	}
 
-	public ImageValidateCodeProperties getImageValidateCode() {
-		return imageValidateCode;
+	public ImageValidateCodeProperties getImageValidateCodeProperties() {
+		return imageValidateCodeProperties;
 	}
 
-	public void setImageValidateCode(ImageValidateCodeProperties imageValidateCode) {
-		this.imageValidateCode = imageValidateCode;
+	public void setImageValidateCode(ImageValidateCodeProperties imageValidateCodeProperties) {
+		this.imageValidateCodeProperties = imageValidateCodeProperties;
 	}
 }

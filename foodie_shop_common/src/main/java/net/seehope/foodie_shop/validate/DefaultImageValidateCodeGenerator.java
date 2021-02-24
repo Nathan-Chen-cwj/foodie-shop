@@ -39,9 +39,8 @@ public class DefaultImageValidateCodeGenerator implements ImageValidateCodeGener
 
     @Override
     public ValidateCode generatorValidateCode() {
-        logger.info("properties+"+properties);
-        int width = properties.getImageValidateCode().getWidth();
-        int height = properties.getImageValidateCode().getHeight();
+        int width = properties.getImageValidateCodeProperties().getWidth();
+        int height = properties.getImageValidateCodeProperties().getHeight();
 
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
@@ -62,7 +61,7 @@ public class DefaultImageValidateCodeGenerator implements ImageValidateCodeGener
         }
 
         StringBuilder sRand = new StringBuilder();
-        for (int i = 0; i < properties.getImageValidateCode().getImageValidateCodeLength(); i++) {
+        for (int i = 0; i < properties.getImageValidateCodeProperties().getImageValidateCodeLength(); i++) {
             String rand = String.valueOf(random.nextInt(10));
             sRand.append(rand);
             g.setColor(new Color(20 + random.nextInt(110), 20 + random.nextInt(110), 20 + random.nextInt(110)));
@@ -70,7 +69,7 @@ public class DefaultImageValidateCodeGenerator implements ImageValidateCodeGener
         }
         g.dispose();
         // 创建
-        return new ImageValidateCode(sRand.toString(), properties.getImageValidateCode().getEffectiveIn(), image);
+        return new ImageValidateCode(sRand.toString(), properties.getImageValidateCodeProperties().getEffectiveIn(), image);
     }
 
     /**

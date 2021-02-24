@@ -6,16 +6,19 @@ package net.seehope.foodie_shop.common;
  * @Date 2021/2/23 0:26
  */
 public class EmailValidateCodeProperties {
-
+    private String emailValidateCodeProcessingUrl = "/authentication/email";
     private Integer effectiveIn = 60*10;
     private Integer emailValidateCodeLength = 6;
 
     public EmailValidateCodeProperties() {
     }
 
-    public EmailValidateCodeProperties(Integer effectiveIn, Integer emailValidateCodeLength) {
-        this.effectiveIn = effectiveIn;
-        this.emailValidateCodeLength = emailValidateCodeLength;
+    public String getEmailValidateCodeProcessingUrl() {
+        return emailValidateCodeProcessingUrl;
+    }
+
+    public void setEmailValidateCodeProcessingUrl(String emailValidateCodeProcessingUrl) {
+        this.emailValidateCodeProcessingUrl = emailValidateCodeProcessingUrl;
     }
 
     public Integer getEffectiveIn() {

@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -35,82 +36,29 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(ValidateCodeFilter.class);
 
-    /**
-     * 使用该方法便于后期使用redis改造
-     */
-    private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
-    /**
-     * 引入AntPathMatcher
-     * 进行地址匹配 让过滤器可以处理
-     */
-    private AntPathMatcher antPathMatcher = new AntPathMatcher();
-
-    private ProjectProperties properties;
     private AuthenticationFailureHandler failureHandler;
+
     private Set<String> processingUrl = new HashSet<String>();
 
-    /**
-     * 把需要进行图片验证码验证处理的地址取出来
-     * @throws ServletException
-     */
-    @Override
-    public void afterPropertiesSet() throws ServletException {
-        String[] urls = StringUtils.splitByWholeSeparatorPreserveAllTokens(properties.getBrowser().getLoginProcessingUrl(),",");
-        for (String url: urls) {
-            processingUrl.add(url);
-        }
-    }
+    private List < ValidateCodeProcessor > validateCodeProcessors;
+
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        /**
-         * 判读请求地址是否是需要进行验证码校验的地址
-         */
-        boolean flag=false;
-        for (String url:processingUrl) {
-            if (antPathMatcher.match(url,request.getRequestURI())){
-                flag = true;
-                break;
+        ServletWebRequest servletWebRequest = new ServletWebRequest(request, response);
+        for (ValidateCodeProcessor validateCodeProcessor : validateCodeProcessors) {
+            if (validateCodeProcessor.isNeedDoValidate(servletWebRequest)){
+                try {
+                    validateCodeProcessor.doValidate(servletWebRequest);
+                    filterChain.doFilter(request,response);
+                }catch (DoValidateException e){
+                    failureHandler.onAuthenticationFailure(request,response,e);
+                    return;
+                }
             }
         }
-        // 如果是登陆认证相关才做处理
-        if (flag){
-            try {
-                doValidate(new ServletWebRequest(request, response));
-                filterChain.doFilter(request,response);
-            }catch (AuthenticationException e){
-                failureHandler.onAuthenticationFailure(request,response,e);
-                return;
-            }
-        }else {
-            filterChain.doFilter(request,response);
-        }
-    }
-
-    public void doValidate(ServletWebRequest request) throws ServletRequestBindingException{
-        ValidateCode codeInSession = (ValidateCode) sessionStrategy.getAttribute(request, "IMAGE_VALIDATE_CODE_IN_SESSION");
-        String codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), "imageValidateCode");
-        if(StringUtils.isBlank(codeInSession.getCode())|| codeInSession.getCode()==null){
-            throw new DoValidateException("系统无验证码，请访问登陆页面");
-        }
-        if (StringUtils.isBlank(codeInRequest) || codeInRequest==null){
-            throw new DoValidateException("请求中无验证码,请填写验证码");
-        }
-        if (codeInSession.isExpire()){
-            throw new DoValidateException("验证码已过期，请刷新后再尝试");
-        }
-        if (!StringUtils.equalsAnyIgnoreCase(codeInRequest,codeInSession.getCode())){
-            throw new DoValidateException("验证码不匹配，请重新输入");
-        }
-        sessionStrategy.removeAttribute(request, "IMAGE_VALIDATE_CODE_IN_SESSION");
-    }
-
-    public ProjectProperties getProperties() {
-        return properties;
-    }
-
-    public void setProperties(ProjectProperties properties) {
-        this.properties = properties;
+        filterChain.doFilter(request,response);
     }
 
     public AuthenticationFailureHandler getFailureHandler() {
@@ -127,5 +75,13 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 
     public void setProcessingUrl(Set<String> processingUrl) {
         this.processingUrl = processingUrl;
+    }
+
+    public List<ValidateCodeProcessor> getValidateCodeProcessors() {
+        return validateCodeProcessors;
+    }
+
+    public void setValidateCodeProcessors(List<ValidateCodeProcessor> validateCodeProcessors) {
+        this.validateCodeProcessors = validateCodeProcessors;
     }
 }
