@@ -1,5 +1,8 @@
 package net.seehope.foodie_shop.validate;
 
+import org.springframework.web.bind.ServletRequestBindingException;
+import org.springframework.web.context.request.ServletWebRequest;
+
 /**
  * @Version 1.0
  * @Author NathanChen
@@ -11,6 +14,7 @@ public interface ValidateCodeGenerator {
     /**
      * 验证码生成器
      * @return 验证码
+     * @param request 请求信息
      */
-    ValidateCode generatorValidateCode();
+    ValidateCode generatorValidateCode(ServletWebRequest request) throws ServletRequestBindingException;
 }

@@ -42,14 +42,23 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
 
 
     @Override
-    public void createValidateCode(ServletWebRequest request) throws IOException {
-        C code = generateValidateCode();
+    public void createValidateCode(ServletWebRequest request) throws IOException, ServletRequestBindingException {
+        C code = generateValidateCode(request);
         saveValidateCode(request,code);
         sendValidateCode(request,code);
     }
 
+    /**
+     * 前置检测，用于手机、邮箱登陆
+     * @param request
+     * @throws ServletRequestBindingException
+     */
+    @Override
+    public abstract void validatePerCheck(ServletWebRequest request) throws ServletRequestBindingException;
+
     @Override
     public void doValidate(ServletWebRequest request) throws ServletRequestBindingException {
+        validatePerCheck(request);
         ValidateCode codeInSession = (ValidateCode) sessionStrategy.getAttribute(request,
                 StringUtils.upperCase(getRealValidateCodeProcessorType())
                         + ProjectConstant.VALIDATE_CODE_IN_SESSION_SUFFIX);
@@ -73,11 +82,11 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
      * 生产验证码
      * @return 返回的验证码 根据子类实现不同有不同的返回，所以采用泛型
      */
-    public C generateValidateCode(){
+    public C generateValidateCode(ServletWebRequest request) throws ServletRequestBindingException {
         Set<String> keys = validateCodeGenerator.keySet();
         for (String key : keys) {
             if (StringUtils.containsIgnoreCase(key,getRealValidateCodeProcessorType())){
-                return (C)validateCodeGenerator.get(key).generatorValidateCode();
+                return (C)validateCodeGenerator.get(key).generatorValidateCode(request);
             }
         }
         return null;

@@ -2,6 +2,7 @@ package net.seehope.foodie_shop.validate;
 
 import net.seehope.foodie_shop.common.ProjectConstant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,7 +40,7 @@ public class ValidateCodeController {
 
 
     @GetMapping(ProjectConstant.VALIDATE_CODE_URL_PREFIX+"{type}")
-    public void getImageValidateCode(@PathVariable String type) throws IOException {
+    public void getImageValidateCode(@PathVariable String type) throws IOException, ServletRequestBindingException {
         // 获取具体验证码处理器 type+"ValidateCodeProcessor"
         validateCodeProcessor.get(type+"ValidateCodeProcessor").createValidateCode(new ServletWebRequest(request,response));
     }

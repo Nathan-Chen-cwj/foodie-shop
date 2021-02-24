@@ -3,6 +3,7 @@ package net.seehope.foodie_shop.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import net.seehope.foodie_shop.bo.UserBo;
 import net.seehope.foodie_shop.common.JsonResult;
+import net.seehope.foodie_shop.common.ProjectProperties;
 import net.seehope.foodie_shop.exception.LoginException;
 import net.seehope.foodie_shop.mapper.UsersMapper;
 
@@ -10,6 +11,7 @@ import net.seehope.foodie_shop.pojo.Users;
 import net.seehope.foodie_shop.service.UserService;
 import net.seehope.foodie_shop.vo.UserAddressVo;
 import net.seehope.foodie_shop.vo.UserVo;
+import org.apache.commons.lang3.StringUtils;
 import org.mayanjun.code.idworker.IdWorker;
 import org.mayanjun.code.idworker.IdWorkerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
@@ -39,6 +43,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private HttpServletRequest request;
+
+    @Autowired
+    private ProjectProperties properties;
 
     @Override
     public JsonResult queryUserNameIsExist(String username) {
@@ -90,9 +99,28 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        log.debug("security登陆表单中的用户名{}",username);
-        Users users = new Users();
-        users.setUsername(username);
+        //进行登陆路径分拣，来调用具体的登陆验证逻辑
+//        if(StringUtils.equals(properties.getBrowser().getLoginProcessingUrl(),request.getRequestURI())){
+//            log.debug("security登陆表单中的用户名{}",username);
+//            Users users = new Users();
+//            users.setUsername(username);
+//            return getUser(users);
+//
+//        }else
+        if(StringUtils.equals(properties.getSmsValidateCodeProperties().getSmsValidateCodeProcessingUrl(),request.getRequestURI())){
+            log.debug("security登陆表单中的用户手机号码{}",username);
+            Users users = new Users();
+            users.setMobile(username);
+            return getUser(users);
+        }else {
+            log.debug("security登陆表单中的用户名{}",username);
+            Users users = new Users();
+            users.setUsername(username);
+            return getUser(users);
+        }
+    }
+
+    public User getUser(Users users){
         List<Users> usersList = usersMapper.select(users);
         if (usersList.size()!=1){
             log.error("登陆异常，一共查询了{}条数据,与预期不同",usersList.size());

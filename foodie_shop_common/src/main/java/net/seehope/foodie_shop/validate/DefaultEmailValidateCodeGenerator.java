@@ -2,6 +2,7 @@ package net.seehope.foodie_shop.validate;
 
 import net.seehope.foodie_shop.common.ProjectProperties;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.web.context.request.ServletWebRequest;
 
 /**
  * @Version 1.0
@@ -13,7 +14,7 @@ public class DefaultEmailValidateCodeGenerator implements EmailValidateCodeGener
     private ProjectProperties properties;
 
     @Override
-    public ValidateCode generatorValidateCode() {
+    public ValidateCode generatorValidateCode(ServletWebRequest request) {
         ValidateCode validateCode = new ValidateCode(RandomStringUtils.randomNumeric(properties.getEmailValidateCodeProperties().getEmailValidateCodeLength()),
                 properties.getEmailValidateCodeProperties().getEffectiveIn());
         return validateCode;

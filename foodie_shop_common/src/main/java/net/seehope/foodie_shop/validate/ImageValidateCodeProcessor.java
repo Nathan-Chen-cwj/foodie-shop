@@ -27,8 +27,13 @@ public class ImageValidateCodeProcessor extends AbstractValidateCodeProcessor<Im
     private ProjectProperties properties;
 
     @Override
-    public void createValidateCode(ServletWebRequest request) throws IOException {
+    public void createValidateCode(ServletWebRequest request) throws IOException, ServletRequestBindingException {
         super.createValidateCode(request);
+    }
+
+    @Override
+    public void validatePerCheck(ServletWebRequest request) {
+
     }
 
     @Override

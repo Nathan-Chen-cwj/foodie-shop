@@ -124,5 +124,11 @@ public class ControllerExceptionHandler {
         return JsonResult.err(e.getLocalizedMessage());
     }
 
+    @ResponseBody
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(value = LoginException.class)
+    public JsonResult handlerLoginException(LoginException e){
+        return JsonResult.err(e.getLocalizedMessage());
+    }
 }
 

@@ -4,6 +4,7 @@ import net.seehope.foodie_shop.common.ProjectProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.ServletWebRequest;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -38,7 +39,7 @@ public class DefaultImageValidateCodeGenerator implements ImageValidateCodeGener
     private static final Logger logger = LoggerFactory.getLogger(DefaultImageValidateCodeGenerator.class);
 
     @Override
-    public ValidateCode generatorValidateCode() {
+    public ValidateCode generatorValidateCode(ServletWebRequest request) {
         int width = properties.getImageValidateCodeProperties().getWidth();
         int height = properties.getImageValidateCodeProperties().getHeight();
 
