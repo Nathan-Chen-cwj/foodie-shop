@@ -14,6 +14,6 @@ public class DefaultSmsValidateCodeSender implements SmsValidateCodeSender{
     @Override
     public void sendValidateCode(ServletWebRequest request, ValidateCode code) {
         logger.info("并没有真正实现短信发送业务，如需发送短信请实现SmsValidateCodeSender接口，覆盖默认逻辑以发送短信"
-                +request.getRequest().getParameter("mobile")+code.getCode());
+                +request.getRequest().getParameter("mobile")+"|||"+code.getCode());
     }
 }

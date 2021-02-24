@@ -1,5 +1,6 @@
 package net.seehope.foodie_shop.security.web.config;
 
+import net.seehope.foodie_shop.authentication.sms.SmsCodeAuthenticationConfig;
 import net.seehope.foodie_shop.common.ProjectConstant;
 import net.seehope.foodie_shop.common.ProjectProperties;
 import net.seehope.foodie_shop.validate.ValidateCodeFilter;
@@ -45,6 +46,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private List< ValidateCodeProcessor> validateCodeProcessors;
 
     @Autowired
+    private SmsCodeAuthenticationConfig smsCodeAuthenticationConfig;
+
+    @Autowired
     public PersistentTokenRepository persistentTokenRepository(){
         JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
         jdbcTokenRepository.setDataSource(dataSource);
@@ -63,6 +67,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         validateCodeFilter.afterPropertiesSet();
         validateCodeFilter.setValidateCodeProcessors(validateCodeProcessors);
 
+        //添加短信验证分链
+        http.apply(smsCodeAuthenticationConfig);
+
         //设置当前应用使用表单登录方式
         http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
@@ -74,25 +81,25 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .successHandler(successHandler)
                 // 认证失败处理器
                 .failureHandler(failureHandler)
-            .and()
-                /*
-                    添加记住我功能 本质上是个过滤器
-                    实现过程解析：
-                        浏览器发送登陆请求，成功后AbstractAuthentication
-                        调用rememberMeService.loginSuccess服务保存登陆成功凭证,默认存储在session,
-                        正是因为这样我们能正常处理后续的请求
-                        而后,我们在这里改变了这个凭证的存储时间和位置使用了session+数据库保持登陆成功依据
-                        首次请求：AbstractAuthentication->UPA F->rememberService->jdbcTokenRepository->将token存储到数据库
-                        有效期内的请求：
-                        RememberMeAuthenticationFilter->jdbcTokenRepository->查找token->取出username->调用userDetailsService进行验证
-                 */
-                .rememberMe()
-                //保存策略 基于内存或基于数据库
-                .tokenRepository(persistentTokenRepository())
-                //用户名认证类
-                .userDetailsService(userDetailsService)
-                //设置token有效期
-                .tokenValiditySeconds(properties.getBrowser().getTokenValiditySeconds())
+//            .and()
+//                /*
+//                    添加记住我功能 本质上是个过滤器
+//                    实现过程解析：
+//                        浏览器发送登陆请求，成功后AbstractAuthentication
+//                        调用rememberMeService.loginSuccess服务保存登陆成功凭证,默认存储在session,
+//                        正是因为这样我们能正常处理后续的请求
+//                        而后,我们在这里改变了这个凭证的存储时间和位置使用了session+数据库保持登陆成功依据
+//                        首次请求：AbstractAuthentication->UPA F->rememberService->jdbcTokenRepository->将token存储到数据库
+//                        有效期内的请求：
+//                        RememberMeAuthenticationFilter->jdbcTokenRepository->查找token->取出username->调用userDetailsService进行验证
+//                 */
+//                .rememberMe()
+//                //保存策略 基于内存或基于数据库
+//                .tokenRepository(persistentTokenRepository())
+//                //用户名认证类
+//                .userDetailsService(userDetailsService)
+//                //设置token有效期
+//                .tokenValiditySeconds(properties.getBrowser().getTokenValiditySeconds())
             .and()// 返回http security对象配置目录
                 .authorizeRequests() //以下都是对授权进行配置,记得放行！！！
                 //请求符合该规则时，放行
@@ -103,7 +110,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/css/style.css",
                         "css/unicons.css",
                         properties.getBrowser().getSwaggerUrl(),
-                        ProjectConstant.VALIDATE_CODE_URL_PREFIX+"*")
+                        ProjectConstant.VALIDATE_CODE_URL_PREFIX+"*",
+                        properties.getSmsValidateCodeProperties().getSmsValidateCodeProcessingUrl())
                 .permitAll()//放行
                 .anyRequest()//除上述请求外所有请求
                 .authenticated()//都需要进行认证，不在乎认证形式，只要认证即可

@@ -22,8 +22,12 @@ public class ProjectConstant {
     public final static String VALIDATE_CODE_URL_PREFIX="/code/";
 
     /**
-     *
+     * 验证码存储到session的后缀
      */
-    public static String VALIDATE_CODE_IN_SESSION_SUFFIX = "_VALIDATE_CODE_IN_SESSION";
+    public final static String VALIDATE_CODE_IN_SESSION_SUFFIX = "_VALIDATE_CODE_IN_SESSION";
+    /**
+     * 短信验证码默认处理地址
+     */
+    public final static String DEFAULT_SMS_VALIDATE_CODE_PROCESSING_URL = "/authentication/mobile";
 
 }

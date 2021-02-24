@@ -9,7 +9,7 @@ public class SmsValidateCodeProperties {
     /**
      * 短信验证校验地址
      */
-    private String smsValidateCodeProcessingUrl = "/authentication/mobile";
+    private String smsValidateCodeProcessingUrl = ProjectConstant.DEFAULT_SMS_VALIDATE_CODE_PROCESSING_URL;
 
     /**
      * 默认有效输入时间
