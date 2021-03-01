@@ -6,7 +6,6 @@ import net.seehope.foodie_shop.bo.UserBo;
 import net.seehope.foodie_shop.common.JsonResult;
 import net.seehope.foodie_shop.security.web.utils.CookieUtils;
 import net.seehope.foodie_shop.service.UserService;
-import net.seehope.foodie_shop.vo.UserVo;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
