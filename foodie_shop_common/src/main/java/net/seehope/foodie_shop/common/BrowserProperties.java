@@ -13,8 +13,8 @@ public class BrowserProperties {
     /**
      * 添加默认地址
      */
-    private String loginPage="/demo-login.html";
-    private String loginProcessingUrl="/authentication/form";
+    private String loginPage=ProjectConstant.LOGIN_PAGE;
+    private String loginProcessingUrl=ProjectConstant.LOGIN_PATH;
 
     private String swaggerUrl = "/swagger-ui.html/*";
 

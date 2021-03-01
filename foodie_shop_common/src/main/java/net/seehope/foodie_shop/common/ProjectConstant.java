@@ -8,6 +8,8 @@ package net.seehope.foodie_shop.common;
  * 工程常量
  */
 public class ProjectConstant {
+
+    public final static String LOGIN_PAGE="/demo-login.html";
     /**
      * 当用户没有认证的时候跳转的路径
      * 跳转到控制器当中，判断请求是访问静态资源还是动态资源
