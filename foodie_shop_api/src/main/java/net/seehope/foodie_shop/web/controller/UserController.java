@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.seehope.foodie_shop.bo.UserBo;
 import net.seehope.foodie_shop.common.JsonResult;
-import net.seehope.foodie_shop.security.web.utils.CookieUtils;
+import net.seehope.foodie_shop.utils.CookieUtils;
 import net.seehope.foodie_shop.service.UserService;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,6 @@ public class UserController {
     @Autowired
     private ObjectMapper objectMapper;
 
-//    passport/usernameIsExist?username=1
     @GetMapping("/usernameIsExist")
     public JsonResult queryUserNameIsExist(@RequestParam String username){
         return userService.queryUserNameIsExist(username);

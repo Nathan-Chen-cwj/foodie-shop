@@ -1,4 +1,4 @@
-package net.seehope.foodie_shop.security.web.utils;
+package net.seehope.foodie_shop.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

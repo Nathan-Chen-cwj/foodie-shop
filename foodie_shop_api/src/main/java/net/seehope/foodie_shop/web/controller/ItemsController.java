@@ -1,9 +1,7 @@
 package net.seehope.foodie_shop.web.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.extern.slf4j.Slf4j;
 import net.seehope.foodie_shop.common.JsonResult;
-import net.seehope.foodie_shop.security.web.config.CorsConfig;
 import net.seehope.foodie_shop.service.ItemsService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +20,6 @@ public class ItemsController {
     @Autowired
     private ItemsService itemsService;
 
-    /**
-     * 解决同源策略问题配置项
-     */
-    @Autowired
-    private CorsConfig corsConfig;
 
     @Tag(name = "itemDetails",description = "点击商品选项卡，查询商品详情")
     @GetMapping("/info/{itemId}")

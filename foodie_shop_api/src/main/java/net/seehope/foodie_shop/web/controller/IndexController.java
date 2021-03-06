@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import net.seehope.foodie_shop.common.JsonResult;
 import net.seehope.foodie_shop.mapper.CategoryMapper;
 import net.seehope.foodie_shop.pojo.Category;
-import net.seehope.foodie_shop.security.web.config.CorsConfig;
+//import net.seehope.foodie_shop.security.web.config.CorsConfig;
 import net.seehope.foodie_shop.service.IndexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +31,7 @@ public class IndexController {
      * 解决同源策略问题配置项
      */
     @Autowired
-    private CorsConfig corsConfig;
+//    private CorsConfig corsConfig;
 
     @Tag(name = "carousel",description = "首页轮播图显示控制器")
     @GetMapping("/carousel")

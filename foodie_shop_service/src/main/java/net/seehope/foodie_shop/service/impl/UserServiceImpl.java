@@ -10,7 +10,6 @@ import net.seehope.foodie_shop.mapper.UsersMapper;
 
 import net.seehope.foodie_shop.pojo.Users;
 import net.seehope.foodie_shop.service.UserService;
-import net.seehope.foodie_shop.vo.UserAddressVo;
 import net.seehope.foodie_shop.vo.UserVo;
 import org.apache.commons.lang3.StringUtils;
 import org.mayanjun.code.idworker.IdWorker;
@@ -22,7 +21,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
