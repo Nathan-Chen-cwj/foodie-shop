@@ -28,7 +28,8 @@
         <module>foodie_shop_mapper</module>
         <module>foodie_shop_service</module>
         <module>foodie_shop_api</module>
-        <module>foodie_shop_app_web_security</module>
+        <module>foodie_shop_web_security</module>
+        <module>foodie_shop_app_security</module>
     </modules>
 
     <build>
