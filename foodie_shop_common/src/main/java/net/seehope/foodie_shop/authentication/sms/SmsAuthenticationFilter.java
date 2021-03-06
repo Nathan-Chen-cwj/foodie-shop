@@ -1,10 +1,7 @@
 package net.seehope.foodie_shop.authentication.sms;
 
 import net.seehope.foodie_shop.common.ProjectConstant;
-import net.seehope.foodie_shop.common.ProjectProperties;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -46,14 +43,12 @@ public class SmsAuthenticationFilter extends AbstractAuthenticationProcessingFil
         super(DEFAULT_ANT_PATH_REQUEST_MATCHER);
     }
 
-    public SmsAuthenticationFilter(AuthenticationManager authenticationManager) {
-        super(DEFAULT_ANT_PATH_REQUEST_MATCHER, authenticationManager);
-    }
+
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
-        if (this.postOnly && !request.getMethod().equals("POST")) {
+        if (this.postOnly && !"POST".equals(request.getMethod())) {
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         }
         String mobile = obtainMobile(request);
