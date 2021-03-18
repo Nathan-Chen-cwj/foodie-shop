@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 
 /**
- * 不加@ControllerAdvice 默认所有错误转发到basicErrorController中
+ * 不加 @ControllerAdvice 默认所有错误转发到 basicErrorController中
  *
  * 控制器统一异常处理中心，所有异常转发到该控制器中处理
  *
@@ -124,11 +124,29 @@ public class ControllerExceptionHandler {
         return JsonResult.err(e.getLocalizedMessage());
     }
 
+    /**
+     * 处理登陆异常
+     * @param e
+     * @return
+     */
     @ResponseBody
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = LoginException.class)
     public JsonResult handlerLoginException(LoginException e){
         return JsonResult.err(e.getLocalizedMessage());
     }
+
+    /**
+     * 处理注册异常
+     * @param e
+     * @return
+     */
+    @ResponseBody
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(value = RegisterException.class)
+    public JsonResult handlerRegisterException(LoginException e){
+        return JsonResult.err(e.getLocalizedMessage());
+    }
+
 }
 

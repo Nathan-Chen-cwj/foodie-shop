@@ -4,8 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.seehope.foodie_shop.bo.UserBo;
 import net.seehope.foodie_shop.common.JsonResult;
 import net.seehope.foodie_shop.common.ProjectProperties;
-import net.seehope.foodie_shop.exception.GetUserException;
-import net.seehope.foodie_shop.exception.LoginException;
 import net.seehope.foodie_shop.mapper.UsersMapper;
 
 import net.seehope.foodie_shop.pojo.Users;

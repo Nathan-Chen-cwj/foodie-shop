@@ -87,15 +87,16 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 有效期内的请求：
                 RememberMeAuthenticationFilter->jdbcTokenRepository->查找token->取出username->调用userDetailsService进行验证
          */
-//        http.rememberMe()
-//                //保存策略 基于内存或基于数据库
-//                .tokenRepository(persistentTokenRepository())
-//                //用户名认证类
-//                .userDetailsService(userDetailsService)
-//                //设置token有效期
-//                .tokenValiditySeconds(properties.getBrowser().getTokenValiditySeconds())
-//            .and()//返回到http 配置目录层
-             http   .csrf() //进入csrf配置
+        http.authorizeRequests().anyRequest().permitAll().and()
+                .rememberMe()
+                //保存策略 基于内存或基于数据库
+                .tokenRepository(persistentTokenRepository())
+                //用户名认证类
+                .userDetailsService(userDetailsService)
+                //设置token有效期
+                .tokenValiditySeconds(properties.getBrowser().getTokenValiditySeconds())
+            .and()//返回到http 配置目录层
+                .csrf() //进入csrf配置
                 .disable();//关闭csrf
     }
 }

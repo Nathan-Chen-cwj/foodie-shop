@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.seehope</groupId>
-    <artifactId>foodie_shop_app_web_security</artifactId>
+    <artifactId>foodie_shop_web_security</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>

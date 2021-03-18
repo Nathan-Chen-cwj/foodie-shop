@@ -12,7 +12,6 @@ import net.seehope.foodie_shop.pojo.Orders;
 import net.seehope.foodie_shop.pojo.UserAddress;
 import net.seehope.foodie_shop.service.OrdersService;
 import net.seehope.foodie_shop.vo.OrdersVo;
-import net.seehope.foodie_shop.vo.UserAddressVo;
 import org.apache.commons.lang3.StringUtils;
 import org.mayanjun.code.idworker.IdWorker;
 import org.mayanjun.code.idworker.IdWorkerFactory;

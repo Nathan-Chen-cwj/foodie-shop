@@ -23,7 +23,7 @@ import java.io.IOException;
  * exception 什么异常导致认证失败
  *
  */
-@Component
+//@Component
 public class FailureHandler extends SimpleUrlAuthenticationFailureHandler {
     @Autowired
     private ProjectProperties properties;

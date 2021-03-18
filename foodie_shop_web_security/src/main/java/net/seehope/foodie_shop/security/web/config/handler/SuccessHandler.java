@@ -22,7 +22,7 @@ import java.io.IOException;
  *
  * authentication 认证成功凭证
  */
-@Component
+//@Component
 public class SuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
     @Autowired

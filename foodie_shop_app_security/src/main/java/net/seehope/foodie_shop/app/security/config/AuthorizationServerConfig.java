@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * @Date 2021/2/25 11:50
  *
  * 开启oauth2认证服务
- * EnableAuthorizationServer 使用该注解开启认证
+ * EnableAuthorizationServer 使用该注解开启认证服务中心
  */
 @Component
 @EnableAuthorizationServer

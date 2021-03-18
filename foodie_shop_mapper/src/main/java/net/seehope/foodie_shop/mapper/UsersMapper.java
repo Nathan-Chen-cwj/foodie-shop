@@ -10,12 +10,33 @@ import net.seehope.foodie_shop.vo.UserVo;
 * @author mapper-generator
 */
 public interface UsersMapper extends tk.mybatis.mapper.common.Mapper<Users> {
+    /**
+     * 查询用户名是否以存在
+     * @param username
+     * @return
+     */
     public Users queryUserNameIsExist(String username);
 
+    /**
+     * 插入用户
+     * @param userBo
+     * @return
+     */
     public Integer insertUser(UserBo userBo);
 
+    /**
+     * 校验用户名和密码是否一致
+     * @param username
+     * @param password
+     * @return
+     */
     public UserVo queryUserByUsernameAndPassword(String username,String password);
 
+    /**
+     * 使用用户名查询用户密码
+     * @param username
+     * @return
+     */
     public UserVo queryUserPassword(String username);
 }
 
