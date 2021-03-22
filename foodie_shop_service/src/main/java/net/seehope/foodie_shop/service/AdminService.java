@@ -2,6 +2,7 @@ package net.seehope.foodie_shop.service;
 
 import net.seehope.foodie_shop.bo.AdminBo;
 import net.seehope.foodie_shop.pojo.Admin;
+import net.seehope.foodie_shop.vo.AdminVo;
 
 /**
  * @Version 1.0
@@ -28,5 +29,12 @@ public interface AdminService {
      * @param adminBo
      * @return
      */
-    public boolean doesUsernameAndPasswordMatch(AdminBo adminBo);
+    public AdminVo doesUsernameAndPasswordMatch(AdminBo adminBo);
+
+    /**
+     * 通过用户id来查询用户信息
+     * @param id
+     * @return
+     */
+    public Admin queryAdminById(String id);
 }

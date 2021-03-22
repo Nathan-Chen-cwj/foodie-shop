@@ -37,5 +37,7 @@ public interface AdminMapper extends tk.mybatis.mapper.common.Mapper<Admin>{
      * @param username
      * @return
      */
-    public AdminVo queryUserPassword(String username);
+    public AdminVo queryUserPasswordByUsername(String username);
+
+    public Admin queryAdminById(String id);
 }
