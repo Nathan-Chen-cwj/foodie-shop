@@ -12,9 +12,10 @@ import org.springframework.web.context.request.ServletWebRequest;
  */
 public interface ValidateCodeGenerator {
     /**
-     * 验证码生成器
+     *验证码生成器
      * @return 验证码
      * @param request 请求信息
+     * @throws ServletRequestBindingException
      */
     ValidateCode generatorValidateCode(ServletWebRequest request) throws ServletRequestBindingException;
 }

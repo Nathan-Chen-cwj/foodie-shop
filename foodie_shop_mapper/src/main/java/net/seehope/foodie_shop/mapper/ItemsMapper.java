@@ -34,6 +34,19 @@ public interface ItemsMapper extends tk.mybatis.mapper.common.Mapper<Items> {
      */
     List<RowsVo> searchRowsVo(String keywords, String sort);
 
+    /**
+     * 点击分级目录搜索
+     * @param keywords
+     * @param sort
+     * @return
+     */
+    List<RowsVo> searchCatItemsVo(int keywords, String sort);
+
+    /**
+     * 通过itemId来查询商品信息
+     * @param itemId
+     * @return
+     */
     ItemInfoVo queryItemInfoVoByItemsId(String itemId);
 
     /**

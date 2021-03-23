@@ -27,7 +27,7 @@
 
     <resultMap id="queryItemVoData" type="net.seehope.foodie_shop.vo.ItemVo">
         <result property="id" column="id"/>
-        <result property="context" column="context"/>
+        <result property="content" column="context"/>
         <result property="sellCounts" column="sell_counts"/>
         <result property="itemName" column="item_name"/>
     </resultMap>
@@ -51,6 +51,25 @@
             items i left join items_spec isp on i.id = isp.item_id
             left join items_img ii on isp.item_id = ii.item_id
         where item_name like #{param1} and ii.is_main = 1
+        GROUP BY i.item_name
+        <if test='param2=="k"'>
+            ORDER BY i.item_name
+        </if>
+        <if test='param2=="c"' >
+            ORDER BY sell_counts
+        </if>
+        <if test='param2=="p"' >
+            ORDER BY isp.price_normal
+        </if>
+    </select>
+
+    <select id="searchCatItemsVo" resultMap="rowsVoData">
+        select
+        i.item_name,i.sell_counts,isp.price_normal,ii.url,ii.item_id
+        from
+        items i left join items_spec isp on i.id = isp.item_id
+        left join items_img ii on isp.item_id = ii.item_id
+        where cat_id=#{param1} and ii.is_main = 1
         GROUP BY i.item_name
         <if test='param2=="k"'>
             ORDER BY i.item_name
@@ -177,5 +196,6 @@
         </foreach>
         AND ii.is_main = 1;
     </select>
+
 
 </mapper>

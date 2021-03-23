@@ -14,6 +14,7 @@ public class AdminBo {
     private String id;
     private String username;
     private String password;
+    private String verCode;
     private String confirmPassword;
     private Date createTime;
     private Date updateTime;

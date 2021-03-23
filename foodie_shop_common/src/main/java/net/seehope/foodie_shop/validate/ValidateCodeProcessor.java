@@ -17,6 +17,7 @@ public interface ValidateCodeProcessor {
      * 创建 存储 发送验证码
      * @param request 请求、响应的结合体，用于获取请求和响应地址
      * @throws IOException
+     * @throws ServletRequestBindingException
      */
     public void createValidateCode(ServletWebRequest request) throws IOException, ServletRequestBindingException;
 
@@ -37,6 +38,7 @@ public interface ValidateCodeProcessor {
     /**
      * 前置检测，用于手机、邮箱登陆
      * @param request
+     * @throws ServletRequestBindingException
      */
     void validatePerCheck(ServletWebRequest request) throws ServletRequestBindingException;
 }

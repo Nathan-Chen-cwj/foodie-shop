@@ -32,15 +32,6 @@ public class ItemsServiceImpl implements ItemsService {
      *     }
      */
     @Autowired
-    private ItemsSpecMapper itemsSpecMapper;
-
-    @Autowired
-    private ItemsImgMapper itemsImgMapper;
-
-    @Autowired
-    private ItemsParamMapper itemsParamMapper;
-
-    @Autowired
     private ItemsMapper itemsMapper;
 
     @Autowired
@@ -55,12 +46,6 @@ public class ItemsServiceImpl implements ItemsService {
 
     @Override
     public ItemInfoVo queryItemDetails(String itemId) {
-
-//        itemInfoVo.setItem(itemsMapper.queryItemVo(itemId));
-//        itemInfoVo.setItemSpecList(itemsSpecMapper.queryItemSpecListVo(itemId));
-//        itemInfoVo.setItemParams(itemsParamMapper.queryItemParamsVo(itemId));
-//        itemInfoVo.setItemImgList(itemsImgMapper.queryItemImgListVo(itemId));
-
         return itemsMapper.queryItemInfoVoByItemsId(itemId);
     }
 
@@ -126,6 +111,19 @@ public class ItemsServiceImpl implements ItemsService {
         List<String> ids = new ArrayList<String>(specIds.length);
         CollectionUtils.addAll(ids,specIds);
         return itemsMapper.queryShopCarOperation(ids);
+    }
+
+    @Override
+    public SearchItemVo searchCatItems(int catId, String sort, Integer page, Integer pageSize) {
+        SearchItemVo searchItemVo = new SearchItemVo();
+        PageHelper.startPage(page, pageSize);
+        List<RowsVo> rowsVos = itemsMapper.searchCatItemsVo(catId, sort);
+        Integer records = rowsVos.size();
+        Double total =  Math.ceil(records/pageSize);
+        searchItemVo.setRows(rowsVos);
+        searchItemVo.setTotal(total);
+        searchItemVo.setRecords(records);
+        return searchItemVo;
     }
 
 

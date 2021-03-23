@@ -50,4 +50,9 @@ public class ItemsController {
     public JsonResult renderShopCatItems(@RequestParam String itemSpecIds){
         return  JsonResult.isOk(itemsService.queryShopCarItems(StringUtils.splitByWholeSeparatorPreserveAllTokens(itemSpecIds,",")));
     }
+
+    @GetMapping("/catItems")
+    public JsonResult catItems(@RequestParam Integer catId,String sort,Integer page,Integer pageSize){
+        return JsonResult.isOk(itemsService.searchCatItems(catId,sort,page,pageSize));
+    }
 }

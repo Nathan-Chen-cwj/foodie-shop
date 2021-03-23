@@ -44,8 +44,31 @@ public interface ItemsService {
      */
     ShowCommentsVo renderCommentLevelCounts(String itemId);
 
+    /**
+     * 查看评论
+     * @param itemId
+     * @param level
+     * @param page
+     * @param pageSize
+     * @return
+     */
     RenderCommentsVo renderComments(String itemId,String level,String page,String pageSize);
 
+    /**
+     * 查看购物车数据
+     * @param specIds
+     * @return
+     */
     List<ShopCarItemVo> queryShopCarItems(String[] specIds);
+
+    /**
+     * 点击分栏查询数据
+     * @param catId
+     * @param sort
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    SearchItemVo searchCatItems(int catId, String sort, Integer page, Integer pageSize);
 
 }

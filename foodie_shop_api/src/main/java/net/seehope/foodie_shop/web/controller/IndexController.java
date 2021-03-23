@@ -27,11 +27,6 @@ public class IndexController {
     @Autowired
     private IndexService indexService;
 
-    /**
-     * 解决同源策略问题配置项
-     */
-    @Autowired
-//    private CorsConfig corsConfig;
 
     @Tag(name = "carousel",description = "首页轮播图显示控制器")
     @GetMapping("/carousel")
