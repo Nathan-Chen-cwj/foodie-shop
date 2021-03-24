@@ -1,4 +1,4 @@
-package net.seehope.foodie_shop.common;
+package net.seehope.foodie_shop.common.validateproperties;
 
 /**
  * @Version 1.0

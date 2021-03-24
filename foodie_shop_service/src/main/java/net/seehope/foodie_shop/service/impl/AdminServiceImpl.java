@@ -42,15 +42,23 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public AdminVo doesUsernameAndPasswordMatch(AdminBo adminBo) {
-        AdminVo adminVo = adminMapper.queryUserPasswordByUsername(adminBo.getUsername());
-        if( passwordEncoder.matches(adminVo.getPassword(),adminVo.getPassword())){
-            return adminVo;
+    public JsonResult doesUsernameAndPasswordMatch(AdminBo adminBo,String verCodeInSession) {
+        if (adminBo.getVerCode() == null){
+                return JsonResult.err("验证码不能为空！");
+            }
+        if (!adminBo.getVerCode().equals(verCodeInSession)) {
+            return JsonResult.err("验证码错误！");
+        }else {
+            AdminVo adminVo = adminMapper.queryUserPasswordByUsername(adminBo.getUsername());
+            if(adminVo!=null){
+                if( adminBo.getPassword().equals(adminVo.getPassword())){
+                    return JsonResult.isOk(adminVo);
+                }
+                return JsonResult.err("密码或用户名错误！");
+            }else {
+                return JsonResult.err("密码或用户名错误！");
+            }
         }
-        if( adminVo.getPassword().equals(adminVo.getPassword())){
-            return adminVo;
-        }
-        throw new LoginException("用户名或密码不正确！");
     }
 
     @Override

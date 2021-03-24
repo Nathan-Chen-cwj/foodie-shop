@@ -1,4 +1,6 @@
-package net.seehope.foodie_shop.common;
+package net.seehope.foodie_shop.common.validateproperties;
+
+import net.seehope.foodie_shop.common.ProjectConstant;
 
 /**
  * @Version 1.0

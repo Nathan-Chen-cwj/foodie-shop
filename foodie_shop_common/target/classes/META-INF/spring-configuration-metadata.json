@@ -22,7 +22,7 @@
     {
       "sourceType": "net.seehope.foodie_shop.common.ProjectProperties",
       "name": "net.seehope.email-validate-code-properties",
-      "type": "net.seehope.foodie_shop.common.EmailValidateCodeProperties"
+      "type": "net.seehope.foodie_shop.common.validateproperties.EmailValidateCodeProperties"
     },
     {
       "sourceType": "net.seehope.foodie_shop.common.ProjectProperties",
@@ -32,7 +32,7 @@
     {
       "sourceType": "net.seehope.foodie_shop.common.ProjectProperties",
       "name": "net.seehope.sms-validate-code-properties",
-      "type": "net.seehope.foodie_shop.common.SmsValidateCodeProperties"
+      "type": "net.seehope.foodie_shop.common.validateproperties.SmsValidateCodeProperties"
     }
   ]
 }

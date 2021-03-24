@@ -1,4 +1,4 @@
-package net.seehope.foodie_shop.web.advice;
+package net.seehope.foodie_shop.advice;
 
 
 import net.seehope.foodie_shop.common.JsonResult;
@@ -130,8 +130,8 @@ public class ControllerExceptionHandler {
      * @return
      */
     @ResponseBody
-    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(value = LoginException.class)
+
+    @ExceptionHandler(LoginException.class)
     public JsonResult handlerLoginException(LoginException e){
         return JsonResult.err(e.getLocalizedMessage());
     }

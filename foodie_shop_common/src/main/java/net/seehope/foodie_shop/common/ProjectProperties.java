@@ -1,11 +1,10 @@
 package net.seehope.foodie_shop.common;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import net.seehope.foodie_shop.common.validateproperties.EmailValidateCodeProperties;
+import net.seehope.foodie_shop.common.validateproperties.ImageValidateCodeProperties;
+import net.seehope.foodie_shop.common.validateproperties.SmsValidateCodeProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-
-import lombok.Data;
 
 /**
  * @Version 1.0
