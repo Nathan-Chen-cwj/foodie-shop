@@ -4,10 +4,8 @@ import net.seehope.foodie_shop.bo.OrderBo;
 import net.seehope.foodie_shop.common.JsonResult;
 import net.seehope.foodie_shop.service.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 
 /**
  * @Version 1.0
@@ -24,5 +22,11 @@ public class OrdersController {
     @PostMapping("/create")
     public JsonResult createOrders(@RequestBody OrderBo orderBo){
         return JsonResult.isOk(ordersService.createOrders(orderBo));
+    }
+//    http://127.0.0.1:8080/orders/getPaidOrderInfo?orderId=[object%20Object]
+//    Request Method: POST
+    @PostMapping("/getPaidOrderInfo")
+    public JsonResult goToPayOrder(@RequestBody String orderId, double amount){
+        return JsonResult.isOk(null);
     }
 }

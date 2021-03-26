@@ -1,5 +1,7 @@
 package net.seehope.foodie_shop.service.impl;
 
+import com.alipay.api.AlipayApiException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import net.seehope.foodie_shop.bo.OrderBo;
 import net.seehope.foodie_shop.dto.OrderDataDto;
 import net.seehope.foodie_shop.exception.CreateOrderItemsException;
@@ -11,6 +13,7 @@ import net.seehope.foodie_shop.pojo.OrderItems;
 import net.seehope.foodie_shop.pojo.Orders;
 import net.seehope.foodie_shop.pojo.UserAddress;
 import net.seehope.foodie_shop.service.OrdersService;
+import net.seehope.foodie_shop.utils.AliPayUtils;
 import net.seehope.foodie_shop.vo.OrdersVo;
 import org.apache.commons.lang3.StringUtils;
 import org.mayanjun.code.idworker.IdWorker;
@@ -18,6 +21,7 @@ import org.mayanjun.code.idworker.IdWorkerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -101,6 +105,26 @@ public class OrdersServiceImpl implements OrdersService {
             throw  new CreateOrderItemsException("系统异常，订单创建失败，请稍后再试");
         }
         return new OrdersVo(orderId);
+    }
+
+    @Override
+    public boolean toPayOrder(String orderId, double amount) {
+        String str = null;
+        try {
+            str = AliPayUtils.generateAliPayTradePagePayRequestForm(orderId, "沙箱支付学习", amount);
+            if (str != null){
+                return true;
+            }
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

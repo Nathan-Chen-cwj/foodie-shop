@@ -163,6 +163,21 @@
             <artifactId>idworker</artifactId>
             <version>0.0.1</version>
         </dependency>
+
+        <!--支付宝支付相关依赖-->
+        <!-- https://mvnrepository.com/artifact/com.alipay.sdk/alipay-sdk-java -->
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>3.7.110.ALL</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.alipay.sdk/alipay-sdk-java -->
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>4.10.119.ALL</version>
+        </dependency>
     </dependencies>
 
     <build>
