@@ -9,7 +9,6 @@ import net.seehope.foodie_shop.common.JsonResult;
 import net.seehope.foodie_shop.service.AdminService;
 import net.seehope.foodie_shop.utils.CookieUtils;
 import net.seehope.foodie_shop.validate.ImageValidateCode;
-import net.seehope.foodie_shop.vo.AdminVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,7 +54,8 @@ public class AccountController {
 
     @GetMapping("/findAdminName")
     public JsonResult doesUserNameIsExist(@RequestParam String adminName){
-        return JsonResult.isOk(adminService.queryUserNameIsExist(adminName));
+        boolean b = adminService.queryUserNameIsExist(adminName);
+        return JsonResult.isOk(b);
     }
     @PostMapping("/logout")
     public JsonResult logOut(){

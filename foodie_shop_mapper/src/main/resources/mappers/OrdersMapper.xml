@@ -3,5 +3,34 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.seehope.foodie_shop.mapper.OrdersMapper">
+    <insert id="insertOrdersStatusTable">
+        insert into order_status (order_id,order_status,created_time) values (#{param1},#{param2},#{param3});
+    </insert>
+    <update id="successPay">
+        UPDATE order_status SET pay_time = #{param2} , order_status = #{param3} WHERE order_Id = #{param1};
+    </update>
 
+    <select id="queryOrdersByUserMobile" resultType="net.seehope.foodie_shop.vo.OrdersVo">
+        SELECT
+            *
+        FROM
+            orders
+        WHERE
+            user_id = (
+        SELECT
+            id
+        FROM
+            users
+        WHERE
+            mobile = #{mobile})
+    </select>
+
+    <select id="queryOrderByReceiverMobile" resultType="net.seehope.foodie_shop.vo.OrdersVo">
+        SELECT
+            *
+        FROM
+            orders
+        WHERE
+            receiver_mobile = #{mobile}
+    </select>
 </mapper>

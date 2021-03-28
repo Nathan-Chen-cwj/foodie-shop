@@ -4,24 +4,28 @@ import com.alipay.api.AlipayApiException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import net.seehope.foodie_shop.bo.OrderBo;
 import net.seehope.foodie_shop.dto.OrderDataDto;
+import net.seehope.foodie_shop.enums.OrdersStatusEnum;
 import net.seehope.foodie_shop.exception.CreateOrderItemsException;
-import net.seehope.foodie_shop.mapper.ItemsSpecMapper;
-import net.seehope.foodie_shop.mapper.OrderItemsMapper;
-import net.seehope.foodie_shop.mapper.OrdersMapper;
-import net.seehope.foodie_shop.mapper.UserAddressMapper;
+import net.seehope.foodie_shop.mapper.*;
 import net.seehope.foodie_shop.pojo.OrderItems;
+import net.seehope.foodie_shop.pojo.OrderStatus;
 import net.seehope.foodie_shop.pojo.Orders;
 import net.seehope.foodie_shop.pojo.UserAddress;
 import net.seehope.foodie_shop.service.OrdersService;
 import net.seehope.foodie_shop.utils.AliPayUtils;
+import net.seehope.foodie_shop.utils.GetTime;
 import net.seehope.foodie_shop.vo.OrdersVo;
+import net.seehope.foodie_shop.vo.OrdersVo1;
 import org.apache.commons.lang3.StringUtils;
 import org.mayanjun.code.idworker.IdWorker;
 import org.mayanjun.code.idworker.IdWorkerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +48,9 @@ public class OrdersServiceImpl implements OrdersService {
     private OrdersMapper ordersMapper;
 
     @Autowired
+    private OrderStatusMapper orderStatusMapper;
+
+    @Autowired
     private UserAddressMapper userAddressMapper;
 
     /**
@@ -56,7 +63,7 @@ public class OrdersServiceImpl implements OrdersService {
      * orders的id每一项都不同
      */
     @Override
-    public OrdersVo createOrders(OrderBo orderBo) {
+    public OrdersVo1 createOrders(OrderBo orderBo) {
         String itemSpecIds = orderBo.getItemSpecIds();
         String [] SpecIds = StringUtils.split(itemSpecIds,",");
         List<String> ids = Arrays.asList(SpecIds);
@@ -104,27 +111,62 @@ public class OrdersServiceImpl implements OrdersService {
         if(ordersMapper.insert(orders) == 0){
             throw  new CreateOrderItemsException("系统异常，订单创建失败，请稍后再试");
         }
-        return new OrdersVo(orderId);
+        try {
+            ordersMapper.insertOrdersStatusTable(orderId,OrdersStatusEnum.TO_BE_PAID.type,GetTime.getTime());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new OrdersVo1(orderId);
+    }
+
+    /**
+     * 通过订单号来查看订单是否已支付
+     * @param oid
+     * @return true已支付，false未支付
+     */
+    @Override
+    public OrderStatus queryOrderStatusByOid(String oid){
+        OrderStatus orderStatus = orderStatusMapper.selectByPrimaryKey(oid);
+        if (orderStatus==null){
+            throw new RuntimeException("系统繁忙，请稍后再操作！");
+        }
+        return orderStatus;
+    }
+
+    /**
+     * 根据用户手机号码查询订单信息
+     * @param mobile 用户手机号码
+     * @return
+     */
+    @Override
+    public List<OrdersVo> queryOrdersByUserMobile(String mobile){
+        List<OrdersVo> ordersVos = ordersMapper.queryOrdersByUserMobile(mobile);
+        if (ordersVos.isEmpty()||ordersVos.size()==0){
+            throw new RuntimeException("该用户尚未有购物记录！请核对后再查询！");
+        }else {
+            return ordersVos;
+        }
+    }
+
+    /**
+     * 通过收件人手机号码来查找订单信息
+     * @param mobile
+     * @return
+     */
+    @Override
+    public List<OrdersVo> queryOrderByReceiverMobile(String mobile){
+        List<OrdersVo> ordersVos = ordersMapper.queryOrderByReceiverMobile(mobile);
+        if (ordersVos.isEmpty()||ordersVos.size()==0){
+            throw new RuntimeException("没有找到关于该收件号码的购物记录！请核对后再查询！");
+        }else {
+            return ordersVos;
+        }
     }
 
     @Override
-    public boolean toPayOrder(String orderId, double amount) {
-        String str = null;
-        try {
-            str = AliPayUtils.generateAliPayTradePagePayRequestForm(orderId, "沙箱支付学习", amount);
-            if (str != null){
-                return true;
-            }
-        } catch (AlipayApiException e) {
-            e.printStackTrace();
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+    public boolean successPay(String out_trade_no) {
+        return ordersMapper.successPay(out_trade_no, GetTime.getTime(),OrdersStatusEnum.PAID.type)>0;
     }
+
 
 }

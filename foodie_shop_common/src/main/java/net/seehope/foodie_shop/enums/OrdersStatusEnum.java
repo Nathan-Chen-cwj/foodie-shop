@@ -10,11 +10,11 @@ public enum  OrdersStatusEnum {
      * 交易状态枚举
      */
 
-     TO_BE_PAID(1,"待支付"),
-     PAID(2,"已支付"),
-     DELIVERED(3,"待收货"),
-     SUCCESSFUL_TRADE(4,"交易成功"),
-     TRANSACTION_CLOSURE(5,"交易关闭");
+     TO_BE_PAID(10,"待支付"),
+     PAID(20,"已支付"),
+     DELIVERED(30,"待收货"),
+     SUCCESSFUL_TRADE(40,"交易成功"),
+     TRANSACTION_CLOSURE(50,"交易关闭");
 
      public final int type;
      public final String content;

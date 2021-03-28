@@ -5,15 +5,70 @@
 <mapper namespace="net.seehope.foodie_shop.mapper.AdminMapper">
     <insert id="insertAdmin"></insert>
     <select id="queryAdminNameIsExist" resultType="net.seehope.foodie_shop.pojo.Admin" parameterType="String">
-        select * from admin_table where username = #{username};
+        select * from admin_table where username = #{username}
     </select>
     <select id="queryUserByUsernameAndPassword" resultType="net.seehope.foodie_shop.vo.AdminVo">
-        select * from admin_table where username = #{username} and password=#{password};
+        select * from admin_table where username = #{username} and password=#{password}
     </select>
     <select id="queryUserPasswordByUsername" resultType="net.seehope.foodie_shop.vo.AdminVo" parameterType="String">
-        select * from admin_table where username = #{username};
+        select * from admin_table where username = #{username}
     </select>
     <select id="queryAdminById" resultType="net.seehope.foodie_shop.pojo.Admin">
         select * from admin_table where id=#{id}
+    </select>
+
+    <select id="getConsoleData" resultType="net.seehope.foodie_shop.vo.ConsoleDataVo">
+        SELECT
+            *
+        FROM
+                ( SELECT COUNT( id ) usersNum FROM users ) t1,(
+            SELECT
+                COUNT( id ) ordersNum
+            FROM
+                orders
+        ) t2,(
+                    SELECT
+                        sum( o.real_pay_amount / 100 ) allIncomes
+                    FROM
+                        orders o
+                            LEFT JOIN order_status os ON o.id = os.order_id
+                    WHERE
+                        os.order_status IN ( 20, 30, 40, 50 )) t3,(
+                    SELECT
+                        COUNT( id ) itemsNum
+                    FROM
+                        items
+                ) t4
+    </select>
+    <select id="getAllGoodsList" resultType="net.seehope.foodie_shop.vo.GoodsListVo">
+        SELECT
+            items.id itemId,
+            items.item_name itemName,
+            items_spec.price_normal / 100 price,
+            items_spec.stock stock,
+            items.sell_counts sellCounts,
+            items.on_off_status goodsStatus
+        FROM
+            items
+                LEFT JOIN items_spec ON items.id = items_spec.item_id
+    </select>
+
+    <select id="getAllUsersList" resultType="net.seehope.foodie_shop.vo.UsersVo">
+        SELECT id,username,mobile,email FROM users
+    </select>
+    <select id="getAllAdminsList" resultType="net.seehope.foodie_shop.pojo.Admin">
+        select * from admin_table
+    </select>
+    <select id="getAllOrdersList" resultType="net.seehope.foodie_shop.vo.OrdersVo">
+        SELECT
+            id orderId,
+            receiver_name receiverName,
+            receiver_mobile receiverMobile,
+            receiver_address receiverAddress,
+            real_pay_amount realPayAmount,
+            left_msg leftMsg,
+            created_time createTime
+        FROM
+            orders
     </select>
 </mapper>

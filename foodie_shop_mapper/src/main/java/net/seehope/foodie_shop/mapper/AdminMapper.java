@@ -2,7 +2,9 @@ package net.seehope.foodie_shop.mapper;
 
 import net.seehope.foodie_shop.bo.AdminBo;
 import net.seehope.foodie_shop.pojo.Admin;
-import net.seehope.foodie_shop.vo.AdminVo;
+import net.seehope.foodie_shop.vo.*;
+
+import java.util.List;
 
 /**
  * @Version 1.0
@@ -39,5 +41,40 @@ public interface AdminMapper extends tk.mybatis.mapper.common.Mapper<Admin>{
      */
     public AdminVo queryUserPasswordByUsername(String username);
 
+    /**
+     * 通过管理员id查询管理员信息
+     * @param id
+     * @return
+     */
     public Admin queryAdminById(String id);
+
+    /**
+     * 获取收入、订单数、商品数、用户数
+     * @return
+     */
+    public ConsoleDataVo getConsoleData();
+
+    /**
+     * 获取所有商品列表
+     * @return
+     */
+    public List<GoodsListVo> getAllGoodsList();
+
+    /**
+     * 获取所有用户列表
+     * @return
+     */
+    public List<UsersVo> getAllUsersList();
+
+    /**
+     * 获取所有管理员列表
+     * @return
+     */
+    public List<Admin> getAllAdminsList();
+
+    /**
+     * 获取所有订单列表
+     * @return
+     */
+    public List<OrdersVo> getAllOrdersList();
 }

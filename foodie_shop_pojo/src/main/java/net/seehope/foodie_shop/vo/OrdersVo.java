@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 /**
  * @Version 1.0
  * @Author NathanChen
@@ -14,4 +16,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrdersVo {
     private String orderId;
+    private String receiverName;
+    private String receiverMobile;
+    private String receiverAddress;
+    private double realPayAmount;
+    private String leftMsg;
+    private Date createTime;
 }
