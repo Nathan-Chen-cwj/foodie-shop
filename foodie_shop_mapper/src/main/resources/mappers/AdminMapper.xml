@@ -4,6 +4,33 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.seehope.foodie_shop.mapper.AdminMapper">
     <insert id="insertAdmin"></insert>
+    <!-- 添加商品系列插入 开始 -->
+    <insert id="addItem" parameterType="net.seehope.foodie_shop.bo.ItemBo">
+        insert into items
+            (id,item_name,cat_id,root_cat_id,sell_counts,on_off_status,content,created_time,updated_time)
+        values
+            (#{itemsId},#{itemName},#{catId},#{rootCatId},#{sellCounts},#{onOffStatus},#{content},#{createdTime},#{updatedTime})
+    </insert>
+    <insert id="addItemParam" parameterType="net.seehope.foodie_shop.bo.ItemBo">
+        insert into items_param
+            (id,item_id,produc_place,foot_period,brand,factory_name,factory_address,packaging_method,weight,storage_method,eat_method,created_time,updated_time)
+        values
+            (#{itemsParamId},#{itemsId},#{productPlace},#{brand},#{footPeriod},#{factoryName},#{factoryAddress},#{packagingMethod},#{weight},#{storageMethod},#{eatMethod},#{createdTime},#{updatedTime})
+    </insert>
+    <insert id="addItemImg" parameterType="net.seehope.foodie_shop.bo.ItemBo">
+        insert into items_img
+            (id,item_id,url,sort,is_main,created_time,updated_time)
+        values
+            (#{itemsImgId},#{itemsId},#{url},#{sort},#{isMain},#{createdTime},#{updatedTime})
+    </insert>
+    <insert id="addItemSpec" parameterType="net.seehope.foodie_shop.bo.ItemBo">
+        insert into items_spec
+            (id,item_id,name,stock,discounts,price_discount,price_normal,created_time,updated_time)
+        values
+            (#{itemsSpecId},#{itemsId},#{name},#{stock},#{discounts},#{priceDiscount},#{priceNormal},#{createdTime},#{updatedTime})
+    </insert>
+    <!-- 添加商品系列操作 结束 -->
+
     <select id="queryAdminNameIsExist" resultType="net.seehope.foodie_shop.pojo.Admin" parameterType="String">
         select * from admin_table where username = #{username}
     </select>
@@ -28,7 +55,7 @@
                 orders
         ) t2,(
                     SELECT
-                        sum( o.real_pay_amount / 100 ) allIncomes
+                        sum( o.real_pay_amount) allIncomes
                     FROM
                         orders o
                             LEFT JOIN order_status os ON o.id = os.order_id
@@ -40,11 +67,12 @@
                         items
                 ) t4
     </select>
-    <select id="getAllGoodsList" resultType="net.seehope.foodie_shop.vo.GoodsListVo">
+    <select id="getAllGoodsList" resultType="net.seehope.foodie_shop.vo.GoodListVo">
         SELECT
             items.id itemId,
             items.item_name itemName,
-            items_spec.price_normal / 100 price,
+            items_spec.name flavor,
+            items_spec.price_normal price,
             items_spec.stock stock,
             items.sell_counts sellCounts,
             items.on_off_status goodsStatus
@@ -53,22 +81,22 @@
                 LEFT JOIN items_spec ON items.id = items_spec.item_id
     </select>
 
-    <select id="getAllUsersList" resultType="net.seehope.foodie_shop.vo.UsersVo">
+    <select id="getAllUsersList" resultType="net.seehope.foodie_shop.vo.UserListVo">
         SELECT id,username,mobile,email FROM users
     </select>
     <select id="getAllAdminsList" resultType="net.seehope.foodie_shop.pojo.Admin">
         select * from admin_table
     </select>
-    <select id="getAllOrdersList" resultType="net.seehope.foodie_shop.vo.OrdersVo">
+    <select id="getAllOrdersList" resultType="net.seehope.foodie_shop.vo.OrderListVo">
         SELECT
             id orderId,
             receiver_name receiverName,
             receiver_mobile receiverMobile,
             receiver_address receiverAddress,
-            real_pay_amount realPayAmount,
+            order_status.order_status orderStatus,
             left_msg leftMsg,
-            created_time createTime
+            orders.created_time createTime
         FROM
-            orders
+            orders LEFT JOIN order_status ON orders.id = order_status.order_id
     </select>
 </mapper>

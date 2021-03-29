@@ -41,8 +41,8 @@ public class AdminOperateData {
         return null;
     }
 
-    @PostMapping()
-    public JsonResult addItem(@RequestBody ItemBo itemBo){
+    @PostMapping("/addGoods")
+    public JsonResult addGoods(@RequestBody ItemBo itemBo){
         return null;
     }
 }

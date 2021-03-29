@@ -11,11 +11,7 @@ import java.util.List;
  */
 @Data
 public class RenderCommentsVo {
-//    grid=commentList{
-//        commentList[createdTime nickname content specName ]
-//        total  总页数
-//        records 总记录数
-//    }
+
     private Double total;
     private Integer records;
     private List<CommentListVo> rows;

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Version 1.0
@@ -15,11 +16,8 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrdersVo {
-    private String orderId;
-    private String receiverName;
-    private String receiverMobile;
-    private String receiverAddress;
-    private double realPayAmount;
-    private String leftMsg;
-    private Date createTime;
+    private List<OrderListVo> rows;
+    private double total;
+    private int records;
+    private int totalRecords;
 }

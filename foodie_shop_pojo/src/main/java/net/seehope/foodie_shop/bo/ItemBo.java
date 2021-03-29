@@ -11,8 +11,15 @@ import java.util.Date;
  */
 @Data
 public class ItemBo {
-    private String id;
+    private String itemsId;
+    private String itemsParamId;
+    private String itemsImgId;
+    private String itemsSpecId;
     private String itemName;
+    /**
+     * 商品规格名称
+     */
+    private String name;
     /**
      * 分类外键id 分类id
      */
@@ -36,7 +43,7 @@ public class ItemBo {
     /**
      * 产地 产地，例：中国江苏
       */
-    private String produc_place;
+    private String productPlace;
     /**
      * 保质期 保质期，例：180天
      */
@@ -70,5 +77,20 @@ public class ItemBo {
       */
     private String eatMethod;
 
+    /**
+     * 图片地址
+     */
+    private String url;
+    /**
+     * 图片顺序，从小到大
+     */
+    private int sort;
+    /**
+     * 是否主图，1：是，0：否
+     */
+    private int isMain;
+
+    private Date createTime;
+    private Date updateTime;
 
 }

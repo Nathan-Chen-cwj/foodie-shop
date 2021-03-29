@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * @Version 1.0
  * @Author NathanChen
@@ -13,8 +15,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UsersVo {
-    private String id;
-    private String username;
-    private String mobile;
-    private String email;
+   private List<UserListVo> rows;
+   private double total;
+   private int records;
+   private int totalRecords;
 }

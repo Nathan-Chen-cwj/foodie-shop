@@ -1,10 +1,10 @@
 package net.seehope.foodie_shop.service;
 
 import net.seehope.foodie_shop.bo.AdminBo;
+import net.seehope.foodie_shop.bo.ItemBo;
 import net.seehope.foodie_shop.common.JsonResult;
 import net.seehope.foodie_shop.pojo.Admin;
 import net.seehope.foodie_shop.vo.*;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -47,13 +47,13 @@ public interface AdminService {
      * 获取所有商品列表
      * @return
      */
-    public List<GoodsListVo> getAllGoodsList(Integer page,Integer pageSize);
+    public GoodsVo getAllGoodsList(Integer page, Integer pageSize);
 
     /**
      * 获取所有用户列表
      * @return
      */
-    public List<UsersVo> getAllUsersList(Integer page,Integer pageSize);
+    public UsersVo getAllUsersList(Integer page,Integer pageSize);
 
     /**
      * 获取所有管理员列表
@@ -65,11 +65,18 @@ public interface AdminService {
      * 获取所有订单列表
      * @return
      */
-    public List<OrdersVo> getAllOrdersList(Integer page,Integer pageSize);
+    public OrdersVo getAllOrdersList(Integer page,Integer pageSize);
 
     /**
      * 获取收入、订单数、商品数、用户数
      * @return
      */
     public ConsoleDataVo getConsoleData();
+
+    /**
+     * 添加商品
+     * @param itemBo
+     * @return
+     */
+    public int addGoods(ItemBo itemBo);
 }

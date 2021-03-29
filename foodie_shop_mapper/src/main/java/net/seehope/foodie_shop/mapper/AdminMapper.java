@@ -1,6 +1,7 @@
 package net.seehope.foodie_shop.mapper;
 
 import net.seehope.foodie_shop.bo.AdminBo;
+import net.seehope.foodie_shop.bo.ItemBo;
 import net.seehope.foodie_shop.pojo.Admin;
 import net.seehope.foodie_shop.vo.*;
 
@@ -58,13 +59,13 @@ public interface AdminMapper extends tk.mybatis.mapper.common.Mapper<Admin>{
      * 获取所有商品列表
      * @return
      */
-    public List<GoodsListVo> getAllGoodsList();
+    public List<GoodListVo> getAllGoodsList();
 
     /**
      * 获取所有用户列表
      * @return
      */
-    public List<UsersVo> getAllUsersList();
+    public List<UserListVo> getAllUsersList();
 
     /**
      * 获取所有管理员列表
@@ -76,5 +77,33 @@ public interface AdminMapper extends tk.mybatis.mapper.common.Mapper<Admin>{
      * 获取所有订单列表
      * @return
      */
-    public List<OrdersVo> getAllOrdersList();
+    public List<OrderListVo> getAllOrdersList();
+
+    /**
+     * 添加商品，系列操作
+     * @param itemBo
+     * @return
+     */
+    public int addItem(ItemBo itemBo);
+
+    /**
+     * 添加商品，系列操作
+     * @param itemBo
+     * @return
+     */
+    public int addItemParam(ItemBo itemBo);
+
+    /**
+     * 添加商品，系列操作
+     * @param itemBo
+     * @return
+     */
+    public int addItemImg(ItemBo itemBo);
+
+    /**
+     * 添加商品，系列操作
+     * @param itemBo
+     * @return
+     */
+    public int addItemSpec(ItemBo itemBo);
 }
