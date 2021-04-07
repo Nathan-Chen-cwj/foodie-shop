@@ -1,8 +1,7 @@
 package net.seehope.foodie_shop.service.impl;
 
 import com.github.pagehelper.PageHelper;
-import net.seehope.foodie_shop.bo.AdminBo;
-import net.seehope.foodie_shop.bo.ItemBo;
+import net.seehope.foodie_shop.bo.*;
 import net.seehope.foodie_shop.common.JsonResult;
 import net.seehope.foodie_shop.exception.LogOutException;
 import net.seehope.foodie_shop.exception.RegisterException;
@@ -15,6 +14,8 @@ import org.mayanjun.code.idworker.IdWorkerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.Date;
 import java.util.List;
@@ -25,13 +26,11 @@ import java.util.List;
  * @Date 2021/3/18 21:43
  */
 @Service
+@Transactional
 public class AdminServiceImpl implements AdminService {
     @Autowired
     private AdminMapper adminMapper;
 
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Override
     public boolean queryUserNameIsExist(String username) {
@@ -130,26 +129,66 @@ public class AdminServiceImpl implements AdminService {
         return adminMapper.getConsoleData();
     }
 
+
     @Override
     public int addGoods(ItemBo itemBo) {
         // 生成商品id
         IdWorker idworker = IdWorkerFactory.create();
         //把生成的id设置到itemBo中
-        itemBo.setItemsId(String.valueOf(idworker.nextId()));
+        String itemId = String.valueOf(idworker.nextId());
+        itemBo.setItemsId(itemId);
         itemBo.setItemsParamId(String.valueOf(idworker.nextId()));
-        itemBo.setItemsImgId(String.valueOf(idworker.nextId()));
         itemBo.setItemsSpecId(String.valueOf(idworker.nextId()));
-        itemBo.setCreateTime(new Date());
-        itemBo.setUpdateTime(new Date());
-        itemBo.setUrl("https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=4275574402,3927309638&fm=26&gp=0.jpg");
+        itemBo.setCreatedTime(new Date());
+        itemBo.setUpdatedTime(new Date());
+        List<ImgUrlBo> imgUrlBos = itemBo.getImgUrlBo();
+        int imgUrlBosSize = imgUrlBos.size();
+        for (int i = 0; i < imgUrlBosSize; i++) {
+            ImgUrlBo imgUrlBo = imgUrlBos.get(i);
+            imgUrlBo.setItemsImgId(String.valueOf(idworker.nextId()));
+            String url = imgUrlBo.getUrl();
+            if (url ==null){
+                imgUrlBo.setUrl("https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=4275574402,3927309638&fm=26&gp=0.jpg");
+            }else{
+                url="E:\\goodsImgUrl"+url;
+            }
+            imgUrlBo.setUrl(url);
+            //设置主图
+            if (i==0){
+                imgUrlBo.setIsMain(1);
+            }
+            imgUrlBo.setSort(i+1);
+            imgUrlBo.setItemId(itemId);
+            imgUrlBo.setCreatedTime(new Date());
+            imgUrlBo.setUpdatedTime(new Date());
+            imgUrlBos.add(imgUrlBo);
+            adminMapper.addItemImg(imgUrlBo);
+        }
         try {
             adminMapper.addItem(itemBo);
             adminMapper.addItemParam(itemBo);
-            adminMapper.addItemImg(itemBo);
             adminMapper.addItemSpec(itemBo);
+            return 1;
         }catch (Exception e){
+            //强制手动事务回滚
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             e.printStackTrace();
         }
+        return 0;
+    }
+
+    @Override
+    public int putGoodsOnSell(List<String> ids) {
+        return adminMapper.putGoodsOnSell(ids);
+    }
+
+    @Override
+    public int offGoodsDownSell(List<String> ids) {
+        return adminMapper.offGoodsDownSell(ids);
+    }
+
+    @Override
+    public int updateGoodsMsg(SimpleUpdateGoodsBo simpleUpdateGoodsBo) {
         return 0;
     }
 

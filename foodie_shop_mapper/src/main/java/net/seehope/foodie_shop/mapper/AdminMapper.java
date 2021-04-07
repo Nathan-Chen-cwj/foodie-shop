@@ -1,7 +1,9 @@
 package net.seehope.foodie_shop.mapper;
 
 import net.seehope.foodie_shop.bo.AdminBo;
+import net.seehope.foodie_shop.bo.ImgUrlBo;
 import net.seehope.foodie_shop.bo.ItemBo;
+import net.seehope.foodie_shop.bo.SimpleUpdateGoodsBo;
 import net.seehope.foodie_shop.pojo.Admin;
 import net.seehope.foodie_shop.vo.*;
 
@@ -98,7 +100,7 @@ public interface AdminMapper extends tk.mybatis.mapper.common.Mapper<Admin>{
      * @param itemBo
      * @return
      */
-    public int addItemImg(ItemBo itemBo);
+    public int addItemImg(ImgUrlBo itemBo);
 
     /**
      * 添加商品，系列操作
@@ -106,4 +108,25 @@ public interface AdminMapper extends tk.mybatis.mapper.common.Mapper<Admin>{
      * @return
      */
     public int addItemSpec(ItemBo itemBo);
+
+    /**
+     * 商品上架
+     * @param goodsBoList
+     * @return
+     */
+    public int putGoodsOnSell(List<String> goodsBoList);
+
+    /**
+     * 商品下架
+     * @param goodsBoList
+     * @return
+     */
+    public int offGoodsDownSell(List<String> goodsBoList);
+
+    /**
+     * 简单更新商品信息
+     * @param simpleUpdateGoodsBo
+     * @return
+     */
+    public int updateGoodsMsg(SimpleUpdateGoodsBo simpleUpdateGoodsBo);
 }

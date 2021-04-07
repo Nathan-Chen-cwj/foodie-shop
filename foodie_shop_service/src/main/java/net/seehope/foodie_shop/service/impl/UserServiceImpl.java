@@ -55,6 +55,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return JsonResult.isOk("账户可注册");
     }
 
+    /**
+     * 用户注册核心代码
+     * @param userBo
+     * @return
+     */
     @Override
     public JsonResult insertUser(UserBo userBo) {
         if (userBo.getPassword().equals(userBo.getConfirmPassword())){
@@ -84,13 +89,36 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
     }
 
+    /**
+     * 用户登陆实现方法
+     * @param userBo
+     * @return
+     */
     @Override
     public JsonResult doesUsernameAndPasswordMatch(UserBo userBo) {
         UserVo userVo = usersMapper.queryUserPassword(userBo.getUsername());
-        if( passwordEncoder.matches(userBo.getPassword(),userVo.getPassword())){
-            return JsonResult.isOk(userVo);
+        if(userVo==null || !passwordEncoder.matches(userBo.getPassword(),userVo.getPassword())){
+            return JsonResult.err("账号名或密码错误");
         }
-        return JsonResult.err("账号名或密码错误");
+        return JsonResult.isOk(userVo);
+    }
+
+    @Override
+    public JsonResult queryMobileDoesExist(String mobile) {
+        Users users = usersMapper.queryMobileDoesExist(mobile);
+        if (users == null){
+            return JsonResult.isOk("该手机号码可以使用！");
+        }
+        return JsonResult.err("该手机号码已被注册，请核对后再输入！");
+    }
+
+    @Override
+    public JsonResult queryEmailDoesExist(String email) {
+        Users users = usersMapper.queryEmailDoesExist(email);
+        if (users == null){
+            return JsonResult.isOk("该邮箱可以使用！");
+        }
+        return JsonResult.err("该邮箱已被注册，请核对后再输入！");
     }
 
 

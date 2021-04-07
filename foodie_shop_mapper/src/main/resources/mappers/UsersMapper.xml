@@ -23,4 +23,11 @@
     <select id="queryUserPassword" resultType="net.seehope.foodie_shop.vo.UserVo">
         select id,username,password,face from users where username= #{username}
     </select>
+
+    <select id="queryMobileDoesExist" resultType="net.seehope.foodie_shop.pojo.Users">
+        select * from users where mobile = #{mobile}
+    </select>
+    <select id="queryEmailDoesExist" resultType="net.seehope.foodie_shop.pojo.Users">
+        select * from users where email = #{email}
+    </select>
 </mapper>

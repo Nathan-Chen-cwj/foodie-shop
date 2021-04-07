@@ -71,4 +71,16 @@ public class UserController {
         CookieUtils.deleteCookie(request,response,"user");
         return JsonResult.isOk("logout success");
     }
+
+    @GetMapping("/queryMobileDoesExist")
+    public JsonResult queryMobileDoesExist(@RequestParam String mobile){
+        return userService.queryMobileDoesExist(mobile);
+    }
+
+    @GetMapping("/queryEmailDoesExist")
+    public JsonResult queryEmailDoesExist(@RequestParam String email){
+        return userService.queryEmailDoesExist(email);
+    }
+
+
 }

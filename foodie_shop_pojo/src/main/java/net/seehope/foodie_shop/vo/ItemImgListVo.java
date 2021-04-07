@@ -9,7 +9,6 @@ import lombok.Data;
  */
 @Data
 public class ItemImgListVo {
-    // url,sort,isMain
     private String url;
     private String sort;
     private String isMain;

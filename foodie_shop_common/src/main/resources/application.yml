@@ -10,7 +10,7 @@ spring:
   datasource:
     druid:
       #110.43.50.227
-      url: jdbc:mysql://localhost:3306/foodie-shop?characterEncoding=utf8
+      url: jdbc:mysql://localhost:3306/foodie-shop?characterEncoding=utf8&allowMultiQueries=true
       driver-class-name: com.mysql.jdbc.Driver
       #foodie
       username: root

@@ -1,6 +1,7 @@
 package net.seehope.foodie_shop.mapper;
 
 import net.seehope.foodie_shop.bo.UserBo;
+import net.seehope.foodie_shop.common.JsonResult;
 import net.seehope.foodie_shop.pojo.Users;
 import net.seehope.foodie_shop.vo.UserVo;
 
@@ -38,6 +39,20 @@ public interface UsersMapper extends tk.mybatis.mapper.common.Mapper<Users> {
      * @return
      */
     public UserVo queryUserPassword(String username);
+
+    /**
+     * 查询手机号码是否已存在
+     * @param mobile
+     * @return
+     */
+    public Users queryMobileDoesExist(String mobile);
+
+    /**
+     * 查询手机号码是否已存在
+     * @param email
+     * @return
+     */
+    public Users queryEmailDoesExist(String email);
 }
 
 

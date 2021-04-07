@@ -9,7 +9,7 @@
         insert into items
             (id,item_name,cat_id,root_cat_id,sell_counts,on_off_status,content,created_time,updated_time)
         values
-            (#{itemsId},#{itemName},#{catId},#{rootCatId},#{sellCounts},#{onOffStatus},#{content},#{createdTime},#{updatedTime})
+            (#{itemsId},#{itemName},#{catId},#{rootCatId},0,#{onOffStatus},#{content},#{createdTime},#{updatedTime})
     </insert>
     <insert id="addItemParam" parameterType="net.seehope.foodie_shop.bo.ItemBo">
         insert into items_param
@@ -17,11 +17,11 @@
         values
             (#{itemsParamId},#{itemsId},#{productPlace},#{brand},#{footPeriod},#{factoryName},#{factoryAddress},#{packagingMethod},#{weight},#{storageMethod},#{eatMethod},#{createdTime},#{updatedTime})
     </insert>
-    <insert id="addItemImg" parameterType="net.seehope.foodie_shop.bo.ItemBo">
+    <insert id="addItemImg" parameterType="net.seehope.foodie_shop.bo.ImgUrlBo">
         insert into items_img
             (id,item_id,url,sort,is_main,created_time,updated_time)
         values
-            (#{itemsImgId},#{itemsId},#{url},#{sort},#{isMain},#{createdTime},#{updatedTime})
+            (#{itemsImgId},#{itemId},#{url},#{sort},#{isMain},#{createdTime},#{updatedTime})
     </insert>
     <insert id="addItemSpec" parameterType="net.seehope.foodie_shop.bo.ItemBo">
         insert into items_spec
@@ -30,6 +30,46 @@
             (#{itemsSpecId},#{itemsId},#{name},#{stock},#{discounts},#{priceDiscount},#{priceNormal},#{createdTime},#{updatedTime})
     </insert>
     <!-- 添加商品系列操作 结束 -->
+
+<!--  更新商品状态 开始 -->
+    <update id="putGoodsOnSell">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update items
+            <set>
+                on_off_status = 1
+            </set>
+            where id = #{item.id}
+        </foreach>
+    </update>
+    <update id="offGoodsDownSell">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update items
+            <set>
+                on_off_status = 2
+            </set>
+            where id = #{item.id}
+        </foreach>
+    </update>
+    <update id="updateGoodsMsg" parameterType="net.seehope.foodie_shop.bo.SimpleUpdateGoodsBo">
+        update items_spec
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null and name !=''">
+                name = #{name},
+            </if>
+            <if test="price!=null and price!=''">
+                price_normal = #{price},
+            </if>
+            <if test="stock!=null and stock!=''">
+                stock = #{stock},
+            </if>
+        </trim>
+        where id = #{itemSpecId}
+    </update>
+    <!--  更新商品状态 结束 -->
+
+
+
+
 
     <select id="queryAdminNameIsExist" resultType="net.seehope.foodie_shop.pojo.Admin" parameterType="String">
         select * from admin_table where username = #{username}
@@ -70,6 +110,7 @@
     <select id="getAllGoodsList" resultType="net.seehope.foodie_shop.vo.GoodListVo">
         SELECT
             items.id itemId,
+            items_spec.id itemSpecId,
             items.item_name itemName,
             items_spec.name flavor,
             items_spec.price_normal price,

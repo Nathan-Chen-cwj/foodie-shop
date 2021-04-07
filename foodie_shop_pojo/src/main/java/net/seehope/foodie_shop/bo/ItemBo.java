@@ -2,7 +2,9 @@ package net.seehope.foodie_shop.bo;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Version 1.0
@@ -13,8 +15,8 @@ import java.util.Date;
 public class ItemBo {
     private String itemsId;
     private String itemsParamId;
-    private String itemsImgId;
     private String itemsSpecId;
+
     private String itemName;
     /**
      * 商品规格名称
@@ -29,9 +31,25 @@ public class ItemBo {
      */
     private int rootCatId;
     /**
-     * 售出量
+     * 库存量
      */
+    private int stock;
+
+    /**
+     * 折扣力度
+     */
+    private double discounts;
+
+    private int priceNormal;
+
+    private int priceDiscount;
+
     private int sellCounts;
+
+    public void setPriceDiscount(int priceNormal,double discounts){
+        this.priceDiscount = (int) (priceNormal*discounts);
+    }
+
     /**
      * 产品状态 1上架 2下架
      */
@@ -78,19 +96,11 @@ public class ItemBo {
     private String eatMethod;
 
     /**
-     * 图片地址
+     * 商品图片
      */
-    private String url;
-    /**
-     * 图片顺序，从小到大
-     */
-    private int sort;
-    /**
-     * 是否主图，1：是，0：否
-     */
-    private int isMain;
+    private List<ImgUrlBo> imgUrlBo;
 
-    private Date createTime;
-    private Date updateTime;
+    private Date createdTime;
+    private Date updatedTime;
 
 }

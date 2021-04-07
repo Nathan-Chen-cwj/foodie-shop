@@ -30,4 +30,18 @@ public interface UserService {
      */
     public JsonResult doesUsernameAndPasswordMatch(UserBo userBo);
 
+    /**
+     * 查询手机号码是否已存在
+     * @param mobile
+     * @return
+     */
+    public JsonResult queryMobileDoesExist(String mobile);
+
+    /**
+     * 查询手机号码是否已存在
+     * @param email
+     * @return
+     */
+    public JsonResult queryEmailDoesExist(String email);
+
 }

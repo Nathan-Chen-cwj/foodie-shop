@@ -2,6 +2,7 @@ package net.seehope.foodie_shop.service;
 
 import net.seehope.foodie_shop.bo.AdminBo;
 import net.seehope.foodie_shop.bo.ItemBo;
+import net.seehope.foodie_shop.bo.SimpleUpdateGoodsBo;
 import net.seehope.foodie_shop.common.JsonResult;
 import net.seehope.foodie_shop.pojo.Admin;
 import net.seehope.foodie_shop.vo.*;
@@ -45,24 +46,32 @@ public interface AdminService {
 
     /**
      * 获取所有商品列表
+     * @param page
+     * @param pageSize
      * @return
      */
     public GoodsVo getAllGoodsList(Integer page, Integer pageSize);
 
     /**
      * 获取所有用户列表
+     * @param page
+     * @param pageSize
      * @return
      */
     public UsersVo getAllUsersList(Integer page,Integer pageSize);
 
     /**
      * 获取所有管理员列表
+     * @param page
+     * @param pageSize
      * @return
      */
     public List<Admin> getAllAdminsList(Integer page,Integer pageSize);
 
     /**
      * 获取所有订单列表
+     * @param page
+     * @param pageSize
      * @return
      */
     public OrdersVo getAllOrdersList(Integer page,Integer pageSize);
@@ -79,4 +88,25 @@ public interface AdminService {
      * @return
      */
     public int addGoods(ItemBo itemBo);
+
+    /**
+     * 商品上架
+     * @param ids
+     * @return
+     */
+    public int putGoodsOnSell(List<String> ids);
+
+    /**
+     * 商品下架
+     * @param ids
+     * @return
+     */
+    public int offGoodsDownSell(List<String> ids);
+
+    /**
+     * 简单更新商品信息
+     * @param simpleUpdateGoodsBo
+     * @return
+     */
+    public int updateGoodsMsg(SimpleUpdateGoodsBo simpleUpdateGoodsBo);
 }
