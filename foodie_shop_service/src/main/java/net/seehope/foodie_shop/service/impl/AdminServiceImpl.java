@@ -157,7 +157,7 @@ public class AdminServiceImpl implements AdminService {
             if (i==0){
                 imgUrlBo.setIsMain(1);
             }
-            imgUrlBo.setSort(i+1);
+            imgUrlBo.setSort(i);
             imgUrlBo.setItemId(itemId);
             imgUrlBo.setCreatedTime(new Date());
             imgUrlBo.setUpdatedTime(new Date());
