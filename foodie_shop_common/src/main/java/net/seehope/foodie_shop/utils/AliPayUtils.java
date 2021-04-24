@@ -63,6 +63,7 @@ public class AliPayUtils {
         //创建API对应的request
         AlipayTradePagePayRequest aliPayRequest = new AlipayTradePagePayRequest();
         aliPayRequest.setReturnUrl(returnUrl);
+        System.out.println(total_amount);
         BizContent bizContent = new BizContent(out_trade_no,total_amount,subject);
         String s = new ObjectMapper().writeValueAsString(bizContent);
         aliPayRequest.setBizContent(s);

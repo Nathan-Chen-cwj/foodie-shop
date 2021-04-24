@@ -178,17 +178,33 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public int putGoodsOnSell(List<String> ids) {
-        return adminMapper.putGoodsOnSell(ids);
+    public int putGoodsOnSell(String id) {
+        return adminMapper.putGoodsOnSell(id);
     }
 
     @Override
-    public int offGoodsDownSell(List<String> ids) {
-        return adminMapper.offGoodsDownSell(ids);
+    public int offGoodsDownSell(String id) {
+        return adminMapper.offGoodsDownSell(id);
     }
 
     @Override
     public int updateGoodsMsg(SimpleUpdateGoodsBo simpleUpdateGoodsBo) {
+        return 0;
+    }
+
+    @Override
+    public int deleteGoodsMsg(String itemId) {
+        try {
+            adminMapper.deleteGoodsMsgInItemTable(itemId);
+            adminMapper.deleteGoodsMsgInItemSpecTable(itemId);
+            adminMapper.deleteGoodsMsgInItemParamTable(itemId);
+            adminMapper.deleteGoodsMsgInItemImgTable(itemId);
+            return 1;
+        }catch (Exception e){
+            //强制手动事务回滚
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            e.printStackTrace();
+        }
         return 0;
     }
 

@@ -91,17 +91,17 @@ public interface AdminService {
 
     /**
      * 商品上架
-     * @param ids
+     * @param id
      * @return
      */
-    public int putGoodsOnSell(List<String> ids);
+    public int putGoodsOnSell(String id);
 
     /**
      * 商品下架
-     * @param ids
+     * @param id
      * @return
      */
-    public int offGoodsDownSell(List<String> ids);
+    public int offGoodsDownSell(String id);
 
     /**
      * 简单更新商品信息
@@ -109,4 +109,11 @@ public interface AdminService {
      * @return
      */
     public int updateGoodsMsg(SimpleUpdateGoodsBo simpleUpdateGoodsBo);
+
+    /**
+     * 删除商品信息
+     * @param itemId
+     * @return
+     */
+    public int deleteGoodsMsg(String itemId);
 }

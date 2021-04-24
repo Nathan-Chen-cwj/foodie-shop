@@ -23,9 +23,9 @@ public class AdminOperateData {
     private AdminService adminService;
 
     @GetMapping("/putGoodsOnSell")
-    public JsonResult putGoodsOnSell(@RequestParam List<String> itemId){
-        System.out.println(itemId);
-        int i = adminService.putGoodsOnSell(itemId);
+    public JsonResult putGoodsOnSell(@RequestParam String itemSpecId){
+        System.out.println(itemSpecId);
+        int i = adminService.putGoodsOnSell(itemSpecId);
         if (i>0){
             return JsonResult.isOk("i");
         }
@@ -33,32 +33,43 @@ public class AdminOperateData {
     }
 
     @GetMapping("/offGoodsDownSell")
-    public JsonResult offGoodsDownSell(@RequestParam List<String> itemId){
-        System.out.println(itemId);
-        return null;
+    public JsonResult offGoodsDownSell(@RequestParam String itemSpecId){
+        System.out.println(itemSpecId);
+        int i = adminService.offGoodsDownSell(itemSpecId);
+        if (i>0){
+            return JsonResult.isOk("i");
+        }
+        return JsonResult.err("系统异常设置失败");
     }
 
-    @GetMapping("/updateGoodsMsg")
+    @PostMapping("/updateGoodsMsg")
     public JsonResult updateGoodsMsg(@RequestBody SimpleUpdateGoodsBo updateGoodsBo){
         System.out.println(updateGoodsBo);
         return null;
     }
 
+    /**
+     * 删除商品信息，基本不使用，但是还是得有
+     * @param itemId
+     * @return
+     */
     @GetMapping("/deleteGoodsMsg")
-    public JsonResult deleteGoodsMsg(@RequestParam String goodsId){
-        return null;
+    public JsonResult deleteGoodsMsg(@RequestParam String itemId){
+        int i = adminService.deleteGoodsMsg(itemId);
+        if (i>0){
+            return JsonResult.isOk("删除成功！");
+        }
+        return JsonResult.err("系统异常，删除失败");
     }
 
     @PostMapping("/addGoods")
     public JsonResult addGoods(@RequestBody ItemBo formData){
         System.out.println(formData);
         int i = adminService.addGoods(formData);
-
-        return null;
+        if (i == 0){
+            return JsonResult.err("系统异常，插入失败");
+        }
+        return JsonResult.isOk("插入成功！");
     }
 
-    @PostMapping("/push")
-    public void push(@RequestBody Object formData){
-        System.out.println(formData);
-    }
 }

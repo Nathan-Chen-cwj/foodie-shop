@@ -1,6 +1,7 @@
 package net.seehope.foodie_shop.web.controller;
 
 import com.alipay.api.AlipayApiException;
+import net.seehope.foodie_shop.bo.PayBo;
 import net.seehope.foodie_shop.common.JsonResult;
 import net.seehope.foodie_shop.service.OrdersService;
 import net.seehope.foodie_shop.utils.AliPayUtils;
@@ -30,14 +31,15 @@ public class DoPayController {
 
 //    paymentServerUrl + "/payment/goAlipay?OrderId=" + orderId+ "&amount=" + totalAmount)
     @PostMapping("/goAlipay")
-    public JsonResult goAlipay(@RequestBody String orderId,String amount){
-        System.out.println("go into goToPayOrder  "+"orderId  "+orderId+ "amount"+amount);
+    public JsonResult goAlipay(@RequestBody PayBo payMsg){
+        System.out.println("go into goToPayOrder  "+"payMsg  "+payMsg);
         String form = null;
         try{
-            form = AliPayUtils.generateAliPayTradePagePayRequestForm(orderId.toString(), "沙箱支付学习", Double.parseDouble(amount));
+            form = AliPayUtils.generateAliPayTradePagePayRequestForm(payMsg.getOrderId(), "沙箱支付学习", Double.parseDouble(payMsg.getTotalAmount()));
             return JsonResult.isOk(form);
         }catch (Exception e){
-            throw new RuntimeException("系统异常,支付失败！");
+            e.printStackTrace();
+            throw new RuntimeException("系统异常,获取支付码失败！");
         }
     }
 

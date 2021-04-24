@@ -33,23 +33,12 @@
 
 <!--  更新商品状态 开始 -->
     <update id="putGoodsOnSell">
-        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
-            update items
-            <set>
-                on_off_status = 1
-            </set>
-            where id = #{item.id}
-        </foreach>
+            update items set on_off_status = 1 where id = #{item.id}
     </update>
     <update id="offGoodsDownSell">
-        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
-            update items
-            <set>
-                on_off_status = 2
-            </set>
-            where id = #{item.id}
-        </foreach>
+        update items set on_off_status = 0 where id = #{item.id}
     </update>
+
     <update id="updateGoodsMsg" parameterType="net.seehope.foodie_shop.bo.SimpleUpdateGoodsBo">
         update items_spec
         <trim prefix="set" suffixOverrides=",">
@@ -67,9 +56,20 @@
     </update>
     <!--  更新商品状态 结束 -->
 
-
-
-
+    <!--  删除商品系列操作 开始  -->
+    <delete id="deleteGoodsMsgInItemTable">
+        DELETE FROM items WHERE id=#{itemId}
+    </delete>
+    <delete id="deleteGoodsMsgInItemParamTable">
+        DELETE FROM items_param WHERE item_id=#{itemId}
+    </delete>
+    <delete id="deleteGoodsMsgInItemImgTable">
+        DELETE FROM items_img WHERE item_id=#{itemId}
+    </delete>
+    <delete id="deleteGoodsMsgInItemSpecTable">
+        DELETE FROM items_spec WHERE item_id=#{itemId}
+    </delete>
+    <!--  删除商品系列操作 结束  -->
 
     <select id="queryAdminNameIsExist" resultType="net.seehope.foodie_shop.pojo.Admin" parameterType="String">
         select * from admin_table where username = #{username}

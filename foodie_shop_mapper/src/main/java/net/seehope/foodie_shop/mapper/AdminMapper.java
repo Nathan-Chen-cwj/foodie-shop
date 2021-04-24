@@ -114,14 +114,14 @@ public interface AdminMapper extends tk.mybatis.mapper.common.Mapper<Admin>{
      * @param goodsBoList
      * @return
      */
-    public int putGoodsOnSell(List<String> goodsBoList);
+    public int putGoodsOnSell(String goodsBoList);
 
     /**
      * 商品下架
      * @param goodsBoList
      * @return
      */
-    public int offGoodsDownSell(List<String> goodsBoList);
+    public int offGoodsDownSell(String goodsBoList);
 
     /**
      * 简单更新商品信息
@@ -129,4 +129,32 @@ public interface AdminMapper extends tk.mybatis.mapper.common.Mapper<Admin>{
      * @return
      */
     public int updateGoodsMsg(SimpleUpdateGoodsBo simpleUpdateGoodsBo);
+
+    /**
+     * 删除商品系列操作
+     * @param itemId
+     * @return
+     */
+    public int deleteGoodsMsgInItemTable(String itemId);
+
+    /**
+     * 删除商品系列操作
+     * @param itemId
+     * @return
+     */
+    public int deleteGoodsMsgInItemParamTable(String itemId);
+
+    /**
+     * 删除商品系列操作
+     * @param itemId
+     * @return
+     */
+    public int deleteGoodsMsgInItemImgTable(String itemId);
+
+    /**
+     * 删除商品系列操作
+     * @param itemId
+     * @return
+     */
+    public int deleteGoodsMsgInItemSpecTable(String itemId);
 }
