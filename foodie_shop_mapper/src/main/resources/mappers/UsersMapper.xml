@@ -30,4 +30,15 @@
     <select id="queryEmailDoesExist" resultType="net.seehope.foodie_shop.pojo.Users">
         select * from users where email = #{email}
     </select>
+
+    <resultMap id="userOrdersMap" type="net.seehope.foodie_shop.vo.UserOrdersVo">
+        <result property="orderId" column="id"/>
+        <result property="name" column="receiver_name"/>
+        <result property="address" column="receiver_address"/>
+        <result property="downDate" column="created_time"/>
+        <result property="price" column="real_pay_amount"/>
+    </resultMap>
+    <select id="getOrdersById" resultMap="userOrdersMap">
+        select id,receiver_name,receiver_address,real_pay_amount,created_time from orders where user_id = #{id}
+    </select>
 </mapper>

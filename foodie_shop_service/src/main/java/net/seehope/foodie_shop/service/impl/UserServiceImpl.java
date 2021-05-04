@@ -8,6 +8,7 @@ import net.seehope.foodie_shop.mapper.UsersMapper;
 
 import net.seehope.foodie_shop.pojo.Users;
 import net.seehope.foodie_shop.service.UserService;
+import net.seehope.foodie_shop.vo.UserOrdersVo;
 import net.seehope.foodie_shop.vo.UserVo;
 import org.apache.commons.lang3.StringUtils;
 import org.mayanjun.code.idworker.IdWorker;
@@ -103,6 +104,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             return JsonResult.err("账号名或密码错误");
         }
         return JsonResult.isOk(userVo);
+    }
+
+    @Override
+    public JsonResult getOrdersById(String id) {
+        List<UserOrdersVo> tableData = usersMapper.getOrdersById(id);
+        System.out.println(tableData);
+        return JsonResult.isOk(tableData);
     }
 
     @Override

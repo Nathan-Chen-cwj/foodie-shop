@@ -55,6 +55,11 @@ public class UserController {
         return jsonResult;
     }
 
+    @GetMapping("/getOrders")
+    public JsonResult getOrdersById(@RequestParam String id){
+        return userService.getOrdersById(id);
+    }
+
     /**
      * 获取当前已登陆的用户的认证凭证
      * @param authentication 认证凭证

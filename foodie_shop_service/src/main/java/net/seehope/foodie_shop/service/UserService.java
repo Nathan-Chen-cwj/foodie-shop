@@ -31,6 +31,13 @@ public interface UserService {
     public JsonResult doesUsernameAndPasswordMatch(UserBo userBo);
 
     /**
+     * 通过用户id获取所属用户的订单信息
+     * @param id
+     * @return
+     */
+    public JsonResult getOrdersById(String id);
+
+    /**
      * 查询手机号码是否已存在
      * @param mobile
      * @return
