@@ -9,9 +9,12 @@ import lombok.Data;
  */
 @Data
 public class SimpleUpdateGoodsBo {
+    private String itemId;
     private String itemSpecId;
     private String itemName;
-    private String name;
     private double price;
     private int stock;
+    private String flavor;
+    private int sellCounts;
+    private int goodsStatus;
 }

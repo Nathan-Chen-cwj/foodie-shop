@@ -39,20 +39,11 @@
         update items set on_off_status = 0 where id = #{item.id}
     </update>
 
-    <update id="updateGoodsMsg" parameterType="net.seehope.foodie_shop.bo.SimpleUpdateGoodsBo">
-        update items_spec
-        <trim prefix="set" suffixOverrides=",">
-            <if test="name != null and name !=''">
-                name = #{name},
-            </if>
-            <if test="price!=null and price!=''">
-                price_normal = #{price},
-            </if>
-            <if test="stock!=null and stock!=''">
-                stock = #{stock},
-            </if>
-        </trim>
-        where id = #{itemSpecId}
+    <update id="updateGoodsMsgInItemsSpec" parameterType="net.seehope.foodie_shop.bo.SimpleUpdateGoodsBo">
+        update items_spec set name=#{flavor},price_normal=#{price},stock=#{stock} where id = #{itemSpecId}
+    </update>
+    <update id="updateGoodsMsgInItems" parameterType="net.seehope.foodie_shop.bo.SimpleUpdateGoodsBo">
+        update items set on_off_status=#{goodsStatus} where id = #{itemId}
     </update>
     <!--  更新商品状态 结束 -->
 

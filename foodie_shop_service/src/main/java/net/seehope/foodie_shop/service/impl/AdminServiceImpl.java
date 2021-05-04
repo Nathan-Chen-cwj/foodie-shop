@@ -189,6 +189,14 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public int updateGoodsMsg(SimpleUpdateGoodsBo simpleUpdateGoodsBo) {
+        try {
+            adminMapper.updateGoodsMsgInItemsSpec(simpleUpdateGoodsBo);
+            adminMapper.updateGoodsMsgInItems(simpleUpdateGoodsBo);
+        }catch (Exception e){
+            //强制手动事务回滚
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            e.printStackTrace();
+        }
         return 0;
     }
 

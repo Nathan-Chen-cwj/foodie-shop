@@ -43,9 +43,9 @@ public class AdminOperateData {
     }
 
     @PostMapping("/updateGoodsMsg")
-    public JsonResult updateGoodsMsg(@RequestBody SimpleUpdateGoodsBo updateGoodsBo){
-        System.out.println(updateGoodsBo);
-        return null;
+    public JsonResult updateGoodsMsg(@RequestBody SimpleUpdateGoodsBo itemId){
+        int i = adminService.updateGoodsMsg(itemId);
+        return JsonResult.isOk("修改成功！");
     }
 
     /**

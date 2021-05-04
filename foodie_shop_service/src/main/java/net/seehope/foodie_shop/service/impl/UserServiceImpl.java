@@ -99,6 +99,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         UserVo userVo = usersMapper.queryUserPassword(userBo.getUsername());
         if(userVo==null || !passwordEncoder.matches(userBo.getPassword(),userVo.getPassword())){
             return JsonResult.err("账号名或密码错误");
+        }else if (!userVo.getPassword().equals(userBo.getPassword())){
+            return JsonResult.err("账号名或密码错误");
         }
         return JsonResult.isOk(userVo);
     }

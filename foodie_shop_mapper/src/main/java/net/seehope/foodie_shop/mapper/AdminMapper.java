@@ -128,7 +128,13 @@ public interface AdminMapper extends tk.mybatis.mapper.common.Mapper<Admin>{
      * @param simpleUpdateGoodsBo
      * @return
      */
-    public int updateGoodsMsg(SimpleUpdateGoodsBo simpleUpdateGoodsBo);
+    public int updateGoodsMsgInItemsSpec(SimpleUpdateGoodsBo simpleUpdateGoodsBo);
+    /**
+     * 简单更新商品信息
+     * @param simpleUpdateGoodsBo
+     * @return
+     */
+    public int updateGoodsMsgInItems(SimpleUpdateGoodsBo simpleUpdateGoodsBo);
 
     /**
      * 删除商品系列操作
